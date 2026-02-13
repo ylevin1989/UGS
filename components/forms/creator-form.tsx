@@ -53,7 +53,7 @@ export function CreatorForm({ onSuccess }: CreatorFormProps) {
                     <Input
                         {...register("name")}
                         placeholder="Твое имя"
-                        className="h-14 px-6 rounded-2xl bg-white/5 border-white/10 focus:border-primary/50 transition-all text-lg"
+                        className="h-14 px-6 rounded-2xl bg-[#121212] border-white/5 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-lg placeholder:text-zinc-700"
                     />
                     {errors.name && (
                         <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-xs text-destructive flex items-center ml-4 mt-1">
@@ -67,7 +67,7 @@ export function CreatorForm({ onSuccess }: CreatorFormProps) {
                     <Input
                         {...register("telegram")}
                         placeholder="@username"
-                        className="h-14 px-6 rounded-2xl bg-white/5 border-white/10 focus:border-primary/50 transition-all text-lg"
+                        className="h-14 px-6 rounded-2xl bg-[#121212] border-white/5 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-lg placeholder:text-zinc-700"
                     />
                     {errors.telegram && (
                         <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-xs text-destructive flex items-center ml-4 mt-1">
@@ -81,7 +81,7 @@ export function CreatorForm({ onSuccess }: CreatorFormProps) {
                     <Input
                         {...register("portfolio")}
                         placeholder="https://tiktok.com/@..."
-                        className="h-14 px-6 rounded-2xl bg-white/5 border-white/10 focus:border-primary/50 transition-all text-lg"
+                        className="h-14 px-6 rounded-2xl bg-[#121212] border-white/5 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-lg placeholder:text-zinc-700"
                     />
                     {errors.portfolio && (
                         <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-xs text-destructive flex items-center ml-4 mt-1">
@@ -95,7 +95,7 @@ export function CreatorForm({ onSuccess }: CreatorFormProps) {
                     <Input
                         {...register("phone")}
                         placeholder="+7 (999) 000-00-00"
-                        className="h-14 px-6 rounded-2xl bg-white/5 border-white/10 focus:border-primary/50 transition-all text-lg"
+                        className="h-14 px-6 rounded-2xl bg-[#121212] border-white/5 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-lg placeholder:text-zinc-700"
                     />
                     {errors.phone && (
                         <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-xs text-destructive flex items-center ml-4 mt-1">
@@ -108,7 +108,7 @@ export function CreatorForm({ onSuccess }: CreatorFormProps) {
             <Button
                 type="submit"
                 size="lg"
-                className="w-full h-16 rounded-2xl font-black text-lg group shadow-xl shadow-primary/10"
+                className="w-full h-16 rounded-2xl font-black text-lg group bg-primary text-black hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-primary/20"
                 disabled={isSubmitting}
             >
                 {isSubmitting ? (

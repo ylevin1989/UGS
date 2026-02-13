@@ -62,7 +62,7 @@ export function ClientForm({ onSuccess }: ClientFormProps) {
                     <Input
                         {...register("name")}
                         placeholder="Александр"
-                        className="h-14 px-6 rounded-2xl bg-white/5 border-white/10 focus:border-primary/50 transition-all text-lg"
+                        className="h-14 px-6 rounded-2xl bg-[#121212] border-white/5 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-lg placeholder:text-zinc-700"
                     />
                     {errors.name && (
                         <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-xs text-destructive flex items-center ml-4 mt-1">
@@ -76,7 +76,7 @@ export function ClientForm({ onSuccess }: ClientFormProps) {
                     <Input
                         {...register("contact")}
                         placeholder="@username"
-                        className="h-14 px-6 rounded-2xl bg-white/5 border-white/10 focus:border-primary/50 transition-all text-lg"
+                        className="h-14 px-6 rounded-2xl bg-[#121212] border-white/5 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-lg placeholder:text-zinc-700"
                     />
                     {errors.contact && (
                         <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-xs text-destructive flex items-center ml-4 mt-1">
@@ -90,17 +90,17 @@ export function ClientForm({ onSuccess }: ClientFormProps) {
                     <Input
                         {...register("website")}
                         placeholder="https://your-site.com"
-                        className="h-14 px-6 rounded-2xl bg-white/5 border-white/10 focus:border-primary/50 transition-all text-lg"
+                        className="h-14 px-6 rounded-2xl bg-[#121212] border-white/5 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-lg placeholder:text-zinc-700"
                     />
                 </div>
 
                 <div className="space-y-2">
                     <label className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-4">Рекламный бюджет</label>
                     <Select onValueChange={(value) => setValue("budget", value)}>
-                        <SelectTrigger className="h-14 px-6 rounded-2xl bg-white/5 border-white/10 focus:border-primary/50 transition-all text-lg">
+                        <SelectTrigger className="h-14 px-6 rounded-2xl bg-[#121212] border-white/5 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-lg text-zinc-300">
                             <SelectValue placeholder="Выберите диапазон" />
                         </SelectTrigger>
-                        <SelectContent className="glass border-white/10 rounded-2xl overflow-hidden">
+                        <SelectContent className="bg-[#121212] border-white/10 rounded-2xl overflow-hidden shadow-2xl">
                             {BUDGET_OPTIONS.map((option) => (
                                 <SelectItem key={option.value} value={option.value} className="py-3 focus:bg-primary/10 transition-colors">
                                     {option.label}
@@ -119,7 +119,7 @@ export function ClientForm({ onSuccess }: ClientFormProps) {
             <Button
                 type="submit"
                 size="lg"
-                className="w-full h-16 rounded-2xl font-black text-lg group shadow-xl shadow-primary/10"
+                className="w-full h-16 rounded-2xl font-black text-lg group bg-primary text-black hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-primary/20"
                 disabled={isSubmitting}
             >
                 {isSubmitting ? (

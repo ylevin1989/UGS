@@ -31,6 +31,9 @@ export const metadata: Metadata = {
   },
 };
 
+import { TelegramWidget, YandexMetrika } from "@/components/social-widgets";
+import { Toaster } from "sonner";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -40,6 +43,9 @@ export default function RootLayout({
     <html lang="ru" className="dark">
       <body className={`${inter.variable} font-sans antialiased`}>
         {children}
+        <TelegramWidget />
+        <YandexMetrika />
+        <Toaster theme="dark" position="top-center" />
       </body>
     </html>
   );
