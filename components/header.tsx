@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -80,34 +81,86 @@ export function Header() {
                 </div>
             </div>
 
-            {/* Mobile Navigation */}
-            {mobileMenuOpen && (
-                <div className="md:hidden mt-2 mx-4 glass rounded-3xl p-6 animate-in slide-in-from-top-4 duration-300 shadow-2xl">
-                    <nav className="flex flex-col space-y-2">
-                        {navLinks.map((item) => (
-                            <Link
+            {/* Mobile Navigation Overlay */}
+            <motion.div
+                initial={false}
+                animate={mobileMenuOpen ? "open" : "closed"}
+                className={`fixed inset-0 z-40 lg:hidden transition-all duration-500 ${mobileMenuOpen ? "pointer-events-auto" : "pointer-events-none"}`}
+            >
+                {/* Backdrop */}
+                <motion.div
+                    variants={{
+                        open: { opacity: 1, backdropFilter: "blur(20px)" },
+                        closed: { opacity: 0, backdropFilter: "blur(0px)" }
+                    }}
+                    className="absolute inset-0 bg-black/80"
+                    onClick={() => setMobileMenuOpen(false)}
+                />
+
+                {/* Menu Content */}
+                <motion.div
+                    variants={{
+                        open: { x: 0, opacity: 1 },
+                        closed: { x: "100%", opacity: 0 }
+                    }}
+                    transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                    className="absolute top-0 right-0 bottom-0 w-[85%] max-w-sm bg-zinc-950 border-l border-white/10 p-8 pt-24 flex flex-col shadow-2xl"
+                >
+                    <nav className="flex flex-col space-y-4">
+                        {navLinks.map((item, i) => (
+                            <motion.div
                                 key={item.href}
-                                href={item.href}
-                                className={`text-xl font-bold py-3 px-4 rounded-2xl transition-all ${pathname === item.href ? "bg-primary text-primary-foreground" : "hover:bg-white/5"
-                                    }`}
-                                onClick={() => setMobileMenuOpen(false)}
+                                variants={{
+                                    open: { opacity: 1, x: 0 },
+                                    closed: { opacity: 0, x: 20 }
+                                }}
+                                transition={{ delay: 0.1 + i * 0.05 }}
                             >
-                                {item.name}
-                            </Link>
+                                <Link
+                                    href={item.href}
+                                    className={`text-3xl font-black uppercase tracking-tighter transition-all ${pathname === item.href ? "text-primary" : "text-white/60 hover:text-white"
+                                        }`}
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    {item.name}
+                                </Link>
+                            </motion.div>
                         ))}
-                        <div className="pt-4">
+                    </nav>
+
+                    <div className="mt-auto space-y-8 pb-10">
+                        {phone && (
+                            <motion.div
+                                variants={{ open: { opacity: 1 }, closed: { opacity: 0 } }}
+                                transition={{ delay: 0.4 }}
+                                className="space-y-2"
+                            >
+                                <div className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Связаться с нами</div>
+                                <a href={`tel:${phone.replace(/\D/g, '')}`} className="flex items-center space-x-3 text-xl font-bold text-white hover:text-primary transition-colors">
+                                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                        <Phone size={18} fill="currentColor" />
+                                    </div>
+                                    <span>{phone}</span>
+                                </a>
+                            </motion.div>
+                        )}
+
+                        <motion.div
+                            variants={{ open: { opacity: 1, y: 0 }, closed: { opacity: 0, y: 20 } }}
+                            transition={{ delay: 0.5 }}
+                        >
                             <ContactModal
                                 type="client"
                                 trigger={
-                                    <Button className="w-full rounded-2xl h-14 text-lg font-bold">
+                                    <Button className="w-full rounded-2xl h-16 text-lg font-black uppercase tracking-tight shadow-xl shadow-primary/20">
                                         Запустить рекламу
                                     </Button>
                                 }
                             />
-                        </div>
-                    </nav>
-                </div>
-            )}
+                        </motion.div>
+                    </div>
+                </motion.div>
+            </motion.div>
         </header>
     );
 }

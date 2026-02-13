@@ -51,7 +51,7 @@ export function StatsSection() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
                     {statsItems.map((stat, index) => {
                         const Icon = stat.icon;
                         return (
@@ -61,29 +61,29 @@ export function StatsSection() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1 }}
-                                className="relative group p-8 rounded-[2.5rem] glass hover:border-primary/20 hover:bg-white/[0.05] transition-all duration-500 shadow-2xl"
+                                className="relative group p-5 md:p-8 rounded-3xl md:rounded-[2.5rem] glass hover:border-primary/20 hover:bg-white/[0.05] transition-all duration-500 shadow-2xl"
                             >
-                                <div className="flex justify-between items-start mb-6">
-                                    <div className={`p-3 rounded-2xl bg-white/5 border border-white/10 ${stat.color} group-hover:scale-110 transition-transform`}>
-                                        <Icon size={24} />
+                                <div className="flex justify-between items-start mb-4 md:mb-6">
+                                    <div className={`p-2.5 md:p-3 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 ${stat.color} group-hover:scale-110 transition-transform`}>
+                                        <Icon size={20} className="md:w-6 md:h-6" />
                                     </div>
-                                    <div className="text-[10px] font-black tracking-widest text-primary/40 group-hover:text-primary transition-colors">
-                                        LIVE DATA
+                                    <div className="text-[8px] md:text-[10px] font-black tracking-widest text-primary/40 group-hover:text-primary transition-colors uppercase">
+                                        LIVE
                                     </div>
                                 </div>
 
                                 <div className="space-y-1">
-                                    <div className="text-4xl md:text-5xl font-black text-white tracking-tighter">
+                                    <div className="text-2xl md:text-5xl font-black text-white tracking-tighter">
                                         {stat.value}
                                     </div>
-                                    <div className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-muted-foreground">
+                                    <div className="text-[9px] md:text-xs font-black uppercase tracking-[0.2em] text-muted-foreground">
                                         {stat.label}
                                     </div>
                                 </div>
 
-                                <div className="mt-6 pt-6 border-t border-white/5 flex items-center space-x-2 text-[10px] font-bold text-zinc-500">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                                    <span>{stat.trend}</span>
+                                <div className="mt-4 md:mt-6 pt-4 md:pt-6 border-t border-white/5 flex items-center space-x-2 text-[8px] md:text-[10px] font-bold text-zinc-500">
+                                    <div className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-primary" />
+                                    <span className="truncate">{stat.trend}</span>
                                 </div>
                             </motion.div>
                         );

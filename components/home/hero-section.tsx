@@ -24,7 +24,7 @@ export function HeroSection() {
                         initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="space-y-10 lg:text-left z-20"
+                        className="space-y-10 text-center lg:text-left z-20"
                     >
                         <div className="space-y-6">
                             <motion.div
@@ -42,36 +42,36 @@ export function HeroSection() {
                                 </span>
                             </motion.div>
 
-                            <h1 className="text-6xl md:text-8xl xl:text-9xl font-black leading-[0.85] tracking-tighter uppercase">
+                            <h1 className="text-4xl sm:text-6xl md:text-8xl xl:text-9xl font-black leading-[0.85] tracking-tighter uppercase text-white">
                                 Reach <br />
                                 <span className="text-primary tracking-tighter italic">Millions</span> <br />
                                 in Minutes.
                             </h1>
 
-                            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl lg:mx-0 font-medium">
+                            <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
                                 Мы заменяем скучную рекламу на живые видео, которые взламывают алгоритмы. <br className="hidden md:block" />
                                 <span className="text-white font-bold">Только живой контент. Только результат.</span>
                             </p>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row gap-5 pt-4">
+                        <div className="flex flex-col sm:flex-row gap-5 pt-4 justify-center lg:justify-start">
                             <ContactModal
                                 type="client"
                                 trigger={
                                     <Button
                                         size="lg"
-                                        className="rounded-full h-16 md:h-18 px-10 text-lg md:text-xl font-black uppercase tracking-tight group shadow-2xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
+                                        className="rounded-full h-16 md:h-18 px-10 text-lg md:text-xl font-black uppercase tracking-tight group shadow-2xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all w-full sm:w-auto"
                                     >
                                         Запустить рост
                                         <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                                     </Button>
                                 }
                             />
-                            <Link href="/cases">
+                            <Link href="/cases" className="w-full sm:w-auto">
                                 <Button
                                     variant="outline"
                                     size="lg"
-                                    className="w-full sm:w-auto rounded-full h-16 md:h-18 px-10 text-lg md:text-xl font-black uppercase tracking-tight border-white/10 hover:bg-white/5 hover:border-white/20 transition-all"
+                                    className="w-full rounded-full h-16 md:h-18 px-10 text-lg md:text-xl font-black uppercase tracking-tight border-white/10 hover:bg-white/5 hover:border-white/20 transition-all"
                                 >
                                     Кейсы
                                 </Button>
@@ -79,18 +79,18 @@ export function HeroSection() {
                         </div>
 
                         {/* Social Proof Badges */}
-                        <div className="flex flex-wrap items-center gap-8 pt-8 border-t border-white/5">
+                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-8 pt-8 border-t border-white/5">
                             <div className="flex items-center space-x-4">
                                 <div className="flex -space-x-4">
                                     {[1, 2, 3].map((i) => (
-                                        <div key={i} className="w-12 h-12 rounded-full border-4 border-background bg-zinc-800 shadow-xl overflow-hidden relative">
+                                        <div key={i} className="w-10 h-10 md:w-12 md:h-12 rounded-full border-4 border-background bg-zinc-800 shadow-xl overflow-hidden relative">
                                             <div className="absolute inset-0 bg-primary/20" />
                                         </div>
                                     ))}
                                 </div>
-                                <div className="text-xs">
+                                <div className="text-left text-[10px] md:text-xs">
                                     <div className="flex text-primary mb-1">
-                                        {[...Array(5)].map((_, i) => <span key={i} className="text-[14px]">★</span>)}
+                                        {[...Array(5)].map((_, i) => <span key={i} className="text-[12px] md:text-[14px]">★</span>)}
                                     </div>
                                     <span className="block font-black uppercase tracking-widest text-zinc-500">5000+ Creators</span>
                                 </div>
@@ -99,9 +99,9 @@ export function HeroSection() {
                             <div className="hidden sm:block h-10 w-px bg-white/5" />
 
                             <div className="flex items-center space-x-3 opacity-40 grayscale hover:grayscale-0 transition-all">
-                                <span className="text-sm font-black tracking-widest uppercase">Meta</span>
-                                <span className="text-sm font-black tracking-widest uppercase">TikTok</span>
-                                <span className="text-sm font-black tracking-widest uppercase">Google</span>
+                                <span className="text-[10px] md:text-sm font-black tracking-widest uppercase text-white">Meta</span>
+                                <span className="text-[10px] md:text-sm font-black tracking-widest uppercase text-white">TikTok</span>
+                                <span className="text-[10px] md:text-sm font-black tracking-widest uppercase text-white">Google</span>
                             </div>
                         </div>
                     </motion.div>
