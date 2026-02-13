@@ -8,7 +8,16 @@ import { ContactModal } from "@/components/contact-modal";
 
 import { CreatorGrid } from "./creator-grid";
 
-export function HeroSection() {
+export function HeroSection({ content }: { content: any }) {
+    const hero = content?.hero || {
+        title1: "Reach",
+        title2: "Millions",
+        title3: "in Minutes.",
+        subtitle: "Мы заменяем скучную рекламу на живые видео, которые взламывают алгоритмы. Только живой контент. Только результат.",
+        ctaPrimary: "Запустить рост",
+        ctaSecondary: "Кейсы"
+    };
+
     return (
         <section className="relative min-h-screen flex items-center pt-28 pb-32 overflow-hidden">
             {/* Dynamic Background */}
@@ -43,14 +52,13 @@ export function HeroSection() {
                             </motion.div>
 
                             <h1 className="text-4xl sm:text-6xl md:text-8xl xl:text-9xl font-black leading-[0.85] tracking-tighter uppercase text-white">
-                                Reach <br />
-                                <span className="text-primary tracking-tighter italic">Millions</span> <br />
-                                in Minutes.
+                                {hero.title1} <br />
+                                <span className="text-primary tracking-tighter italic">{hero.title2}</span> <br />
+                                {hero.title3}
                             </h1>
 
-                            <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
-                                Мы заменяем скучную рекламу на живые видео, которые взламывают алгоритмы. <br className="hidden md:block" />
-                                <span className="text-white font-bold">Только живой контент. Только результат.</span>
+                            <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium whitespace-pre-line">
+                                {hero.subtitle}
                             </p>
                         </div>
 
@@ -60,9 +68,9 @@ export function HeroSection() {
                                 trigger={
                                     <Button
                                         size="lg"
-                                        className="rounded-full h-16 md:h-18 px-10 text-lg md:text-xl font-black uppercase tracking-tight group shadow-2xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all w-full sm:w-auto"
+                                        className="rounded-full h-16 md:h-18 px-10 text-lg md:text-xl font-black uppercase tracking-tight group shadow-2xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all w-full sm:w-auto text-black"
                                     >
-                                        Запустить рост
+                                        {hero.ctaPrimary}
                                         <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                                     </Button>
                                 }
@@ -73,7 +81,7 @@ export function HeroSection() {
                                     size="lg"
                                     className="w-full rounded-full h-16 md:h-18 px-10 text-lg md:text-xl font-black uppercase tracking-tight border-white/10 hover:bg-white/5 hover:border-white/20 transition-all"
                                 >
-                                    Кейсы
+                                    {hero.ctaSecondary}
                                 </Button>
                             </Link>
                         </div>
@@ -108,7 +116,7 @@ export function HeroSection() {
 
                     {/* Right Visual - Upgraded Grid */}
                     <div className="relative">
-                        <CreatorGrid />
+                        <CreatorGrid content={content} />
 
                         {/* Status Label (like Image 0) */}
                         <motion.div

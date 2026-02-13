@@ -4,37 +4,14 @@ import { motion } from "framer-motion";
 import { SITE_CONFIG } from "@/lib/constants";
 import { TrendingUp, Users, Eye, Zap } from "lucide-react";
 
-export function StatsSection() {
-    const statsItems = [
-        {
-            value: SITE_CONFIG.stats.creators,
-            label: "Active Creators",
-            icon: Users,
-            trend: "+12% from last week",
-            color: "text-blue-400"
-        },
-        {
-            value: SITE_CONFIG.stats.monthlyReach,
-            label: "Monthly Reach",
-            icon: Eye,
-            trend: "+2.4M organic",
-            color: "text-purple-400"
-        },
-        {
-            value: SITE_CONFIG.stats.avgCPV,
-            label: "Average CPV",
-            icon: TrendingUp,
-            trend: "-15% cost drop",
-            color: "text-primary"
-        },
-        {
-            value: SITE_CONFIG.stats.launchDays,
-            label: "Campaign Launch",
-            icon: Zap,
-            trend: "Fastest in industry",
-            color: "text-orange-400"
-        },
-    ];
+export function StatsSection({ content }: { content: any }) {
+    const statsData = content?.stats || [];
+    const iconList = [Users, Eye, TrendingUp, Zap];
+
+    const statsItems = statsData.map((stat: any, index: number) => ({
+        ...stat,
+        icon: iconList[index % iconList.length]
+    }));
 
     return (
         <section className="py-24 bg-background relative overflow-hidden">
@@ -52,7 +29,7 @@ export function StatsSection() {
                 </div>
 
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
-                    {statsItems.map((stat, index) => {
+                    {statsItems.map((stat: any, index: number) => {
                         const Icon = stat.icon;
                         return (
                             <motion.div

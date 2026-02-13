@@ -9,34 +9,47 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { CASE_STUDIES } from "@/lib/constants";
 
+import { useEffect, useState } from "react";
+import { getContent } from "@/app/actions/content";
+
 export default function CasesPage() {
+    const [content, setContent] = useState<any>(null);
+
+    useEffect(() => {
+        getContent().then(setContent);
+    }, []);
+
+    if (!content) return null;
+
+    const cases = content.cases || CASE_STUDIES;
+
     return (
         <>
             <Header />
-            <main className="pt-32 pb-24">
+            <main className="pt-24 lg:pt-32 pb-24">
                 <div className="container">
-                    <div className="text-center mb-20 max-w-4xl mx-auto space-y-4">
+                    <div className="text-center mb-12 lg:mb-20 max-w-4xl mx-auto space-y-4 px-4">
                         <motion.span
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            className="text-primary font-black uppercase tracking-[0.4em] text-xs"
+                            className="text-primary font-black uppercase tracking-[0.4em] text-[10px] lg:text-xs"
                         >
                             Proven Results
                         </motion.span>
                         <motion.h1
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="text-5xl md:text-8xl font-black tracking-tighter mb-6 uppercase leading-[0.85]"
+                            className="text-4xl md:text-8xl font-black tracking-tighter mb-6 uppercase leading-[0.9] lg:leading-[0.85]"
                         >
                             Our <span className="text-primary italic">Success</span> Stories
                         </motion.h1>
-                        <p className="text-xl text-muted-foreground font-medium max-w-2xl mx-auto">
+                        <p className="text-base lg:text-xl text-muted-foreground font-medium max-w-2xl mx-auto">
                             Мы превращаем охваты в реальную прибыль. Посмотрите, как мы масштабируем бренды через UGC-стратегии.
                         </p>
                     </div>
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-                        {CASE_STUDIES.map((caseItem, idx) => (
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
+                        {cases.map((caseItem: any, idx: number) => (
                             <motion.div
                                 key={caseItem.id}
                                 initial={{ opacity: 0, y: 30 }}
@@ -44,8 +57,8 @@ export default function CasesPage() {
                                 transition={{ delay: idx * 0.1 }}
                                 className="group h-full"
                             >
-                                <Card className="h-full flex flex-col overflow-hidden glass rounded-[3rem] border-white/5 hover:border-primary/30 transition-all duration-500">
-                                    <div className="aspect-[4/5] relative overflow-hidden rounded-[3rem] m-2">
+                                <Card className="h-full flex flex-col overflow-hidden glass rounded-[2.5rem] lg:rounded-[3rem] border-white/5 hover:border-primary/30 transition-all duration-500">
+                                    <div className="aspect-[4/5] relative overflow-hidden rounded-[2.2rem] lg:rounded-[3.2rem] m-1.5 lg:m-2">
                                         <Image
                                             src={caseItem.image}
                                             alt={caseItem.brand}
@@ -55,42 +68,42 @@ export default function CasesPage() {
                                         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
 
                                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-primary-foreground shadow-2xl shadow-primary/40 scale-75 group-hover:scale-100 transition-transform">
-                                                <Play fill="currentColor" size={32} className="ml-1" />
+                                            <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-primary flex items-center justify-center text-primary-foreground shadow-2xl shadow-primary/40 scale-75 group-hover:scale-100 transition-transform">
+                                                <Play fill="currentColor" size={28} className="ml-1" />
                                             </div>
                                         </div>
 
-                                        <div className="absolute bottom-8 left-8 right-8 space-y-2">
-                                            <span className="text-[10px] font-black uppercase tracking-widest text-primary bg-primary/20 px-3 py-1 rounded-full backdrop-blur-md border border-primary/20">
+                                        <div className="absolute bottom-6 left-6 lg:bottom-8 lg:left-8 right-6 lg:right-8 space-y-1 lg:space-y-2">
+                                            <span className="text-[8px] lg:text-[10px] font-black uppercase tracking-widest text-primary bg-primary/20 px-2.5 lg:px-3 py-1 rounded-full backdrop-blur-md border border-primary/20 inline-block">
                                                 {caseItem.category}
                                             </span>
-                                            <h3 className="text-3xl font-black text-white">{caseItem.brand}</h3>
+                                            <h3 className="text-2xl lg:text-3xl font-black text-white uppercase tracking-tighter">{caseItem.brand}</h3>
                                         </div>
                                     </div>
 
-                                    <div className="p-10 pt-6 flex flex-col flex-grow space-y-10">
-                                        <div className="grid grid-cols-2 gap-6">
-                                            <div className="space-y-1">
-                                                <div className="flex items-center text-primary space-x-2">
-                                                    <Users size={14} />
-                                                    <span className="text-[10px] font-black uppercase tracking-widest opacity-60">Reach</span>
+                                    <div className="p-6 lg:p-10 pt-4 lg:pt-6 flex flex-col flex-grow space-y-6 lg:space-y-10">
+                                        <div className="grid grid-cols-2 gap-4 lg:gap-6">
+                                            <div className="space-y-0.5 lg:space-y-1">
+                                                <div className="flex items-center text-primary space-x-1.5 lg:space-x-2">
+                                                    <Users size={12} className="lg:w-3.5 lg:h-3.5" />
+                                                    <span className="text-[8px] lg:text-[10px] font-black uppercase tracking-widest opacity-60">Reach</span>
                                                 </div>
-                                                <p className="text-2xl font-black">{caseItem.shortResult}</p>
+                                                <p className="text-xl lg:text-2xl font-black">{caseItem.shortResult}</p>
                                             </div>
-                                            <div className="space-y-1">
-                                                <div className="flex items-center text-primary space-x-2">
-                                                    <TrendingUp size={14} />
-                                                    <span className="text-[10px] font-black uppercase tracking-widest opacity-60">Growth</span>
+                                            <div className="space-y-0.5 lg:space-y-1">
+                                                <div className="flex items-center text-primary space-x-1.5 lg:space-x-2">
+                                                    <TrendingUp size={12} className="lg:w-3.5 lg:h-3.5" />
+                                                    <span className="text-[8px] lg:text-[10px] font-black uppercase tracking-widest opacity-60">Growth</span>
                                                 </div>
-                                                <p className="text-2xl font-black">{caseItem.shortRoi}</p>
+                                                <p className="text-xl lg:text-2xl font-black">{caseItem.shortRoi}</p>
                                             </div>
                                         </div>
 
                                         <div className="mt-auto">
                                             <Link href={`/cases/${caseItem.id}`} className="block">
-                                                <button className="w-full h-16 rounded-2xl bg-white/5 hover:bg-primary hover:text-black hover:scale-[1.02] border border-white/10 flex items-center justify-center font-black uppercase tracking-tighter transition-all">
+                                                <button className="w-full h-14 lg:h-16 rounded-xl lg:rounded-2xl bg-white/5 hover:bg-primary hover:text-black hover:scale-[1.02] border border-white/10 flex items-center justify-center text-xs lg:text-sm font-black uppercase tracking-widest lg:tracking-tighter transition-all">
                                                     Детальный разбор
-                                                    <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                                    <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform lg:w-4.5 lg:h-4.5" />
                                                 </button>
                                             </Link>
                                         </div>
@@ -100,18 +113,18 @@ export default function CasesPage() {
                         ))}
                     </div>
 
-                    <div className="mt-24 p-12 md:p-24 glass rounded-[4rem] text-center border-white/5 relative overflow-hidden">
+                    <div className="mt-16 lg:mt-24 p-8 lg:p-24 glass rounded-[3rem] lg:rounded-[4rem] text-center border-white/5 relative overflow-hidden">
                         <div className="absolute inset-0 bg-primary/5 -z-10" />
-                        <div className="relative z-10 space-y-8">
-                            <h2 className="text-4xl md:text-7xl font-black tracking-tighter uppercase leading-none">
+                        <div className="relative z-10 space-y-6 lg:space-y-8">
+                            <h2 className="text-3xl md:text-7xl font-black tracking-tighter uppercase leading-none">
                                 Хотите такие же <br />
                                 <span className="text-primary italic">результаты?</span>
                             </h2>
-                            <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-medium">
+                            <p className="text-base lg:text-xl text-muted-foreground max-w-2xl mx-auto font-medium">
                                 Оставьте заявку на бесплатный расчет медиаплана. Мы подберем креаторов и стратегию под ваш бюджет.
                             </p>
-                            <Link href="/#contact-form">
-                                <button className="h-20 px-16 rounded-full bg-primary text-black font-black text-2xl shadow-2xl shadow-primary/30 hover:scale-105 active:scale-95 transition-all">
+                            <Link href="/#contact-form" className="inline-block">
+                                <button className="h-16 lg:h-20 px-10 lg:px-16 rounded-full bg-primary text-black font-black text-lg lg:text-2xl shadow-2xl shadow-primary/30 hover:scale-105 active:scale-95 transition-all uppercase tracking-tight">
                                     ПОЛУЧИТЬ СТРАТЕГИЮ
                                 </button>
                             </Link>

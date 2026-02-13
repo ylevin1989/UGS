@@ -10,9 +10,21 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
+import { useEffect, useState } from "react";
+import { getContent } from "@/app/actions/content";
+
 export default function CaseDetailsPage() {
     const params = useParams();
-    const caseItem = CASE_STUDIES.find((c) => c.id === params.id);
+    const [content, setContent] = useState<any>(null);
+
+    useEffect(() => {
+        getContent().then(setContent);
+    }, []);
+
+    if (!content) return null;
+
+    const cases = content.cases || CASE_STUDIES;
+    const caseItem = cases.find((c: any) => c.id === params.id);
 
     if (!caseItem) {
         return (
@@ -55,7 +67,7 @@ export default function CaseDetailsPage() {
                             </div>
 
                             <div className="grid grid-cols-2 gap-8">
-                                {caseItem.results.map((res, i) => (
+                                {(caseItem.results || []).map((res: any, i: number) => (
                                     <div key={i} className="glass p-6 rounded-3xl border-white/10">
                                         <p className="text-3xl font-black text-primary mb-1">{res.value}</p>
                                         <p className="text-[10px] uppercase font-black tracking-widest text-zinc-500">{res.label}</p>
@@ -106,7 +118,7 @@ export default function CaseDetailsPage() {
                                 <h2 className="text-3xl font-black uppercase">Final Verdict</h2>
                                 <div className="glass p-10 rounded-[3rem] border-primary/20 bg-primary/5">
                                     <p className="text-2xl italic font-medium leading-relaxed">
-                                        "{caseItem.fullStory}"
+                                        "{caseItem.fullStory || `Our work with ${caseItem.brand} led to significant growth and established a strong UGC presence.`}"
                                     </p>
                                 </div>
                             </section>

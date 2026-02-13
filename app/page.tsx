@@ -1,5 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { getContent } from "@/app/actions/content";
+
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { HeroSection } from "@/components/home/hero-section";
@@ -53,11 +56,19 @@ const IconMap: any = {
 import { MarqueeTicker } from "@/components/ui/marquee-ticker";
 
 export default function HomePage() {
+  const [content, setContent] = useState<any>(null);
+
+  useEffect(() => {
+    getContent().then(setContent);
+  }, []);
+
+  if (!content) return null;
+
   return (
     <>
       <Header />
       <main>
-        <HeroSection />
+        <HeroSection content={content} />
 
         <div className="relative -mt-16 mb-24 z-40">
           <MarqueeTicker
@@ -66,7 +77,7 @@ export default function HomePage() {
           />
         </div>
 
-        {/* Problem Section: Why classic ads don't work */}
+        {/* Problem Section */}
         <section className="py-24 relative overflow-hidden">
           <div className="container relative z-10">
             <div className="text-center max-w-4xl mx-auto mb-16 space-y-4">
@@ -107,14 +118,13 @@ export default function HomePage() {
             <div className="bg-primary/5 border border-primary/10 rounded-[3rem] p-6 md:p-10 text-center max-w-5xl mx-auto">
               <h3 className="text-2xl md:text-3xl font-black mb-6 uppercase tracking-tight">Наше решение</h3>
               <p className="text-lg md:text-xl leading-relaxed text-foreground/80 italic">
-                Мы заменяем один дорогой рекламный ролик на <span className="text-primary font-black">1000 живых видео</span> от реальных пользователей (UGC).
-                Это создает эффект "вездесущности" бренда и взламывает алгоритмы рекомендаций.
+                {content.site.description}
               </p>
             </div>
           </div>
         </section>
 
-        <StatsSection />
+        <StatsSection content={content} />
 
         {/* Process Section */}
         <section className="py-24 bg-background select-none overflow-hidden relative">
@@ -136,7 +146,7 @@ export default function HomePage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 xl:gap-8">
-              {PROCESS_STEPS.map((step, idx) => (
+              {(content.process || PROCESS_STEPS).map((step: any, idx: number) => (
                 <motion.div
                   key={idx}
                   initial={{ opacity: 0, scale: 0.95, y: 30 }}
@@ -149,7 +159,6 @@ export default function HomePage() {
                   }}
                   className="relative group p-8 glass rounded-[2.5rem] hover:border-primary/30 transition-all duration-500 flex flex-col h-auto min-h-[320px] lg:min-h-[350px]"
                 >
-                  {/* Floating Number */}
                   <div className="absolute top-2 right-4 text-9xl font-black text-white/[0.03] group-hover:text-primary/10 transition-colors pointer-events-none select-none">
                     {idx + 1}
                   </div>
@@ -191,27 +200,25 @@ export default function HomePage() {
               </h2>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {CONTENT_FORMATS.map((format, idx) => {
-                const Icon = IconMap[format.icon];
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+              {(content.formats || CONTENT_FORMATS).map((format: any, idx: number) => {
+                const Icon = IconMap[format.icon] || Lightbulb;
                 return (
                   <motion.div
                     key={idx}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.1 }}
-                    className="group relative h-[420px] glass rounded-[3rem] overflow-hidden hover:border-primary/30 transition-all duration-500 shadow-2xl"
+                    className="group relative h-[300px] md:h-[350px] glass rounded-[2.5rem] md:rounded-[3rem] overflow-hidden hover:border-primary/30 transition-all duration-500 shadow-2xl"
                   >
-                    {/* Abstract background visual */}
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-50" />
-                    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_0%,white/5,transparent_50%)]" />
 
-                    <div className="absolute bottom-0 left-0 w-full p-10 space-y-4 z-20">
-                      <div className="w-14 h-14 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 flex items-center justify-center text-primary mb-6 transition-transform group-hover:scale-110">
-                        <Icon size={28} />
+                    <div className="absolute inset-0 p-6 md:p-10 flex flex-col justify-end z-20">
+                      <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 flex items-center justify-center text-primary mb-4 md:mb-6 transition-transform group-hover:scale-110">
+                        <Icon size={24} className="md:w-7 md:h-7" />
                       </div>
-                      <h3 className="text-2xl font-black uppercase tracking-tighter text-white">{format.title}</h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 group-hover:line-clamp-none transition-all">
+                      <h3 className="text-lg md:text-2xl font-black uppercase tracking-tighter text-white mb-2">{format.title}</h3>
+                      <p className="text-[10px] md:text-sm text-muted-foreground leading-relaxed line-clamp-2 group-hover:line-clamp-none transition-all">
                         {format.desc}
                       </p>
                     </div>
@@ -231,7 +238,7 @@ export default function HomePage() {
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               <div className="relative rounded-[3rem] overflow-hidden aspect-[4/5] border border-white/10 shadow-2xl">
                 <Image
-                  src="/creator_filming_phone_1770949347410.png"
+                  src={content.homeImages?.businessValue || "/creator_filming_phone_1770949347410.png"}
                   alt="Creator filming"
                   fill
                   className="object-cover"
@@ -313,12 +320,12 @@ export default function HomePage() {
               Частые вопросы
             </h2>
             <Accordion type="single" collapsible className="space-y-4">
-              {CLIENT_FAQ.map((item, idx) => (
+              {(content.faq?.clients || CLIENT_FAQ).map((item: any, idx: number) => (
                 <AccordionItem key={idx} value={`faq-${idx}`} className="border border-white/10 bg-white/[0.02] rounded-3xl px-8 overflow-hidden hover:bg-white/[0.05] transition-colors">
                   <AccordionTrigger className="text-lg font-bold py-6 hover:no-underline hover:text-primary transition-colors">
                     {item.q}
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-6 leading-relaxed">
+                  <AccordionContent className="text-muted-foreground pb-6 leading-relaxed whitespace-pre-line">
                     {item.a}
                   </AccordionContent>
                 </AccordionItem>

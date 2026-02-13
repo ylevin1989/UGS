@@ -12,18 +12,22 @@ const CREATORS = [
     { id: 6, name: "Boris", img: "/ugc_hero_dark_tech_1770949327468.png", delay: 0.5 },
 ];
 
-export function CreatorGrid() {
+export function CreatorGrid({ content }: { content: any }) {
+    const gridData = content?.homeImages?.grid || CREATORS;
+
+    // Ensure we have at least 6 items
+    const creators = [...gridData, ...CREATORS].slice(0, 6);
     return (
         <div className="relative w-full min-h-[400px] lg:h-[600px] select-none pointer-events-none mt-12 lg:mt-0">
             <div className="grid grid-cols-2 gap-4 md:gap-6 pointer-events-none">
                 {/* Left Column */}
                 <div className="space-y-4 md:space-y-6 lg:pt-20">
-                    {CREATORS.slice(0, 3).map((creator) => (
+                    {creators.slice(0, 3).map((creator: any, i: number) => (
                         <motion.div
-                            key={creator.id}
+                            key={creator.id || i}
                             initial={{ opacity: 0, y: 40 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: creator.delay, duration: 1 }}
+                            transition={{ delay: (i * 0.1), duration: 1 }}
                             className="relative aspect-[4/5] rounded-2xl md:rounded-[3rem] overflow-hidden border border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] bg-zinc-900"
                         >
                             <Image
@@ -42,12 +46,12 @@ export function CreatorGrid() {
 
                 {/* Right Column */}
                 <div className="space-y-4 md:space-y-6">
-                    {CREATORS.slice(3, 6).map((creator) => (
+                    {creators.slice(3, 6).map((creator: any, i: number) => (
                         <motion.div
-                            key={creator.id}
+                            key={creator.id || i + 3}
                             initial={{ opacity: 0, y: 40 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: creator.delay, duration: 1 }}
+                            transition={{ delay: (i * 0.1) + 0.3, duration: 1 }}
                             className="relative aspect-[4/5] rounded-2xl md:rounded-[3rem] overflow-hidden border border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] bg-zinc-900"
                         >
                             <Image

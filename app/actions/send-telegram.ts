@@ -1,6 +1,7 @@
 "use server";
 
 import { ClientFormData, CreatorFormData } from "@/lib/validations";
+import { saveLead } from "@/app/actions/leads";
 
 const TG_BOT_TOKEN = process.env.TG_BOT_TOKEN;
 const TG_CHAT_ID = process.env.TG_CHAT_ID;
@@ -49,6 +50,7 @@ ${data.website ? `<b>Сайт:</b> ${data.website}` : ""}
 <i>Отправлено: ${new Date().toLocaleString("ru-RU", { timeZone: "Asia/Bangkok" })}</i>
   `.trim();
 
+    await saveLead({ ...data, type: "client" });
     return await sendTelegramMessage(message);
 }
 
@@ -64,5 +66,6 @@ ${data.portfolio ? `<b>Портфолио:</b> ${data.portfolio}` : ""}
 <i>Отправлено: ${new Date().toLocaleString("ru-RU", { timeZone: "Asia/Bangkok" })}</i>
   `.trim();
 
+    await saveLead({ ...data, type: "creator" });
     return await sendTelegramMessage(message);
 }
