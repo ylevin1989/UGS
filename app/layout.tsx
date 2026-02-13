@@ -33,20 +33,23 @@ export const metadata: Metadata = {
 
 import { TelegramWidget, YandexMetrika } from "@/components/social-widgets";
 import { Toaster } from "sonner";
+import { getContent } from "@/app/actions/content";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const content = await getContent();
+
   return (
     <html lang="ru" className="dark">
       <body className={`${inter.variable} font-sans antialiased overflow-x-hidden`}>
         <div className="relative min-h-screen overflow-x-hidden">
           {children}
         </div>
-        <TelegramWidget />
-        <YandexMetrika />
+        <TelegramWidget telegram={content?.contacts?.telegram} />
+        <YandexMetrika id={content?.site?.yandexMetrikaId} />
         <Toaster theme="dark" position="top-center" />
       </body>
     </html>

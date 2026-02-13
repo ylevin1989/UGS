@@ -1,27 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { MessageCircle } from "lucide-react";
-import { getContent } from "@/app/actions/content";
 
-export function TelegramWidget() {
-    const [telegram, setTelegram] = useState("");
-
-    useEffect(() => {
-        getContent().then(data => {
-            if (data?.contacts?.telegram) {
-                // Remove @ if present for the link
-                const username = data.contacts.telegram.replace("@", "");
-                setTelegram(username);
-            }
-        });
-    }, []);
-
+export function TelegramWidget({ telegram }: { telegram?: string }) {
     if (!telegram) return null;
+
+    // Remove @ if present for the link
+    const username = telegram.replace("@", "");
 
     return (
         <a
-            href={`https://t.me/${telegram}`}
+            href={`https://t.me/${username}`}
             target="_blank"
             rel="noopener noreferrer"
             className="fixed bottom-8 right-8 z-[100] w-16 h-16 bg-[#229ED9] rounded-full flex items-center justify-center text-white shadow-2xl hover:scale-110 active:scale-95 transition-all group"
@@ -33,17 +22,7 @@ export function TelegramWidget() {
     );
 }
 
-export function YandexMetrika() {
-    const [id, setId] = useState("");
-
-    useEffect(() => {
-        getContent().then(data => {
-            if (data?.site?.yandexMetrikaId) {
-                setId(data.site.yandexMetrikaId);
-            }
-        });
-    }, []);
-
+export function YandexMetrika({ id }: { id?: string }) {
     if (!id) return null;
 
     return (

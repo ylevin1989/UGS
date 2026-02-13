@@ -1,8 +1,4 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { getContent } from "@/app/actions/content";
-
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { HeroSection } from "@/components/home/hero-section";
@@ -26,25 +22,12 @@ import {
   Theater,
   Lightbulb,
   CheckCircle2,
-  AlertTriangle,
-  History,
-  TrendingDown,
   Zap,
   Eye,
-  ChevronDown,
-  ArrowRight,
-  Play,
-  Star,
-  Settings,
-  ShieldCheck,
-  Rocket,
-  Users,
-  Film,
-  Sparkles,
-  BarChart3
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { MarqueeTicker } from "@/components/ui/marquee-ticker";
 import Image from "next/image";
+import { ClientMotionWrapper } from "@/components/client-motion-wrapper";
 
 const IconMap: any = {
   Package,
@@ -53,20 +36,14 @@ const IconMap: any = {
   Lightbulb
 };
 
-import { MarqueeTicker } from "@/components/ui/marquee-ticker";
-
-export default function HomePage() {
-  const [content, setContent] = useState<any>(null);
-
-  useEffect(() => {
-    getContent().then(setContent);
-  }, []);
+export default async function HomePage() {
+  const content = await getContent();
 
   if (!content) return null;
 
   return (
     <>
-      <Header />
+      <Header phone={content.site.phone} />
       <main>
         <HeroSection content={content} />
 
@@ -81,13 +58,14 @@ export default function HomePage() {
         <section className="py-24 relative overflow-hidden">
           <div className="container relative z-10">
             <div className="text-center max-w-4xl mx-auto mb-16 space-y-4">
-              <motion.span
+              <ClientMotionWrapper
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
+                tag="span"
                 className="text-primary font-black uppercase tracking-[0.3em] text-[10px]"
               >
                 The Problem
-              </motion.span>
+              </ClientMotionWrapper>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase">
                 Why classic ads <br />
                 <span className="text-destructive tracking-tighter italic">don't work</span> anymore.
@@ -132,13 +110,14 @@ export default function HomePage() {
 
           <div className="container">
             <div className="text-center max-w-4xl mx-auto mb-16 space-y-4">
-              <motion.span
+              <ClientMotionWrapper
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
+                tag="span"
                 className="text-primary font-black uppercase tracking-[0.3em] text-xs"
               >
                 Execution
-              </motion.span>
+              </ClientMotionWrapper>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase leading-[0.85]">
                 From Brief to <br />
                 <span className="text-primary italic">Viral Sales</span>
@@ -147,7 +126,7 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 xl:gap-8">
               {(content.process || PROCESS_STEPS).map((step: any, idx: number) => (
-                <motion.div
+                <ClientMotionWrapper
                   key={idx}
                   initial={{ opacity: 0, scale: 0.95, y: 30 }}
                   whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -165,7 +144,7 @@ export default function HomePage() {
 
                   <div className="space-y-6 relative z-10 flex flex-col h-full">
                     <div className="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center text-black font-black text-2xl shadow-xl shadow-primary/20 group-hover:scale-110 transition-transform duration-500">
-                      0{step.step}
+                      0{step.step || idx + 1}
                     </div>
 
                     <div className="space-y-4">
@@ -177,7 +156,7 @@ export default function HomePage() {
                       </p>
                     </div>
                   </div>
-                </motion.div>
+                </ClientMotionWrapper>
               ))}
             </div>
           </div>
@@ -187,13 +166,14 @@ export default function HomePage() {
         <section className="py-24">
           <div className="container">
             <div className="text-center max-w-4xl mx-auto mb-16 space-y-4">
-              <motion.span
+              <ClientMotionWrapper
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
+                tag="span"
                 className="text-primary font-black uppercase tracking-[0.3em] text-[10px]"
               >
                 Our Arsenal
-              </motion.span>
+              </ClientMotionWrapper>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase leading-[0.85]">
                 Formats that <br />
                 <span className="text-primary italic">Dominate</span> feeds.
@@ -204,7 +184,7 @@ export default function HomePage() {
               {(content.formats || CONTENT_FORMATS).map((format: any, idx: number) => {
                 const Icon = IconMap[format.icon] || Lightbulb;
                 return (
-                  <motion.div
+                  <ClientMotionWrapper
                     key={idx}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -222,7 +202,7 @@ export default function HomePage() {
                         {format.desc}
                       </p>
                     </div>
-                  </motion.div>
+                  </ClientMotionWrapper>
                 );
               })}
             </div>
@@ -231,7 +211,6 @@ export default function HomePage() {
 
         {/* Business Value Section */}
         <section className="py-20 bg-[#050505] text-white relative overflow-hidden">
-          {/* Subtle background glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-primary/5 blur-[120px] -z-10" />
 
           <div className="container">
@@ -241,11 +220,11 @@ export default function HomePage() {
                   src={content.homeImages?.businessValue || "/creator_filming_phone_1770949347410.png"}
                   alt="Creator filming"
                   fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
 
-                {/* Overlay Badge */}
                 <div className="absolute bottom-8 left-8 glass p-4 rounded-2xl border-white/10">
                   <p className="text-primary font-bold text-sm tracking-widest uppercase">Premium UGC Production</p>
                 </div>
@@ -338,3 +317,4 @@ export default function HomePage() {
     </>
   );
 }
+

@@ -10,10 +10,9 @@ import { getContent } from "@/app/actions/content";
 import { Phone } from "lucide-react";
 import { ContactModal } from "@/components/contact-modal";
 
-export function Header() {
+export function Header({ phone }: { phone?: string }) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const [phone, setPhone] = useState("");
     const pathname = usePathname();
 
     useEffect(() => {
@@ -21,7 +20,6 @@ export function Header() {
             setScrolled(window.scrollY > 20);
         };
         window.addEventListener("scroll", handleScroll);
-        getContent().then(data => setPhone(data?.site?.phone || ""));
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 

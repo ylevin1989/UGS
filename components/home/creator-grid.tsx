@@ -34,6 +34,8 @@ export function CreatorGrid({ content }: { content: any }) {
                                 src={creator.img}
                                 alt={creator.name}
                                 fill
+                                priority={i < 2}
+                                sizes="(max-width: 768px) 50vw, 33vw"
                                 className="object-cover opacity-60"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
@@ -58,6 +60,7 @@ export function CreatorGrid({ content }: { content: any }) {
                                 src={creator.img}
                                 alt={creator.name}
                                 fill
+                                sizes="(max-width: 768px) 50vw, 33vw"
                                 className="object-cover opacity-60"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
