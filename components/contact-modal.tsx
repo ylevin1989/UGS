@@ -29,14 +29,14 @@ export function ContactModal({ type, trigger }: ContactModalProps) {
                     </Button>
                 )}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden bg-transparent border-none shadow-none">
-                <div className="bg-[#0A0A0A] p-8 md:p-12 rounded-[3rem] border border-white/10 shadow-[0_0_100px_rgba(0,0,0,1)] relative overflow-hidden">
-                    <div className="absolute inset-0 bg-primary/5 rounded-[3rem] pointer-events-none" />
+            <DialogContent className="sm:max-w-[600px] p-0 overflow-visible bg-transparent border-none shadow-none !translate-y-0 top-10 sm:top-[50%] sm:translate-y-[-50%]">
+                <div className="bg-[#0A0A0A] p-6 md:p-12 rounded-[2.5rem] md:rounded-[3rem] border border-white/10 shadow-[0_0_100px_rgba(0,0,0,1)] relative overflow-y-auto max-h-[85vh] sm:max-h-none">
+                    <div className="absolute inset-0 bg-primary/5 rounded-[2.5rem] md:rounded-[3rem] pointer-events-none" />
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-                    <DialogHeader className="mb-8">
-                        <DialogTitle className="text-4xl font-black tracking-tighter uppercase text-center">
+                    <DialogHeader className="mb-6 md:mb-8">
+                        <DialogTitle className="text-3xl md:text-4xl font-black tracking-tighter uppercase text-center">
                             {type === "client" ? (
-                                <>Отравить <span className="text-primary italic">БРИФ</span></>
+                                <>Отправить <span className="text-primary italic">БРИФ</span></>
                             ) : (
                                 <>Стать <span className="text-primary italic">КРЕАТОРОМ</span></>
                             )}

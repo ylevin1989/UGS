@@ -135,27 +135,32 @@ export default function HomePage() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 xl:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 xl:gap-8">
               {PROCESS_STEPS.map((step, idx) => (
                 <motion.div
                   key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="relative group p-8 glass rounded-[2.5rem] hover:border-primary/30 transition-all duration-500 flex flex-col h-full min-h-[350px]"
+                  initial={{ opacity: 0, scale: 0.95, y: 30 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{
+                    duration: 0.8,
+                    delay: idx * 0.15,
+                    ease: [0.22, 1, 0.36, 1]
+                  }}
+                  className="relative group p-8 glass rounded-[2.5rem] hover:border-primary/30 transition-all duration-500 flex flex-col h-auto min-h-[320px] lg:min-h-[350px]"
                 >
                   {/* Floating Number */}
-                  <div className="absolute top-2 right-4 text-9xl font-black text-white/[0.03] group-hover:text-primary/5 transition-colors pointer-events-none select-none">
+                  <div className="absolute top-2 right-4 text-9xl font-black text-white/[0.03] group-hover:text-primary/10 transition-colors pointer-events-none select-none">
                     {idx + 1}
                   </div>
 
                   <div className="space-y-6 relative z-10 flex flex-col h-full">
-                    <div className="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center text-black font-black text-2xl shadow-xl shadow-primary/20">
+                    <div className="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center text-black font-black text-2xl shadow-xl shadow-primary/20 group-hover:scale-110 transition-transform duration-500">
                       0{step.step}
                     </div>
 
                     <div className="space-y-4">
-                      <h4 className="text-xl md:text-2xl font-black uppercase tracking-tight leading-none min-h-[3rem]">
+                      <h4 className="text-xl md:text-2xl font-black uppercase tracking-tight leading-none">
                         {step.title}
                       </h4>
                       <p className="text-sm text-muted-foreground leading-relaxed font-medium">

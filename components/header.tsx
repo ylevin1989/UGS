@@ -104,9 +104,18 @@ export function Header() {
                         closed: { x: "100%", opacity: 0 }
                     }}
                     transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                    className="absolute top-0 right-0 bottom-0 w-[85%] max-w-sm bg-zinc-950 border-l border-white/10 p-8 pt-24 flex flex-col shadow-2xl"
+                    className="absolute top-0 right-0 bottom-0 w-[90%] sm:w-[85%] max-w-sm bg-zinc-950 border-l border-white/10 p-8 pt-24 flex flex-col shadow-2xl safe-area-padding"
                 >
-                    <nav className="flex flex-col space-y-4">
+                    {/* Close button inside menu */}
+                    <button
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="absolute top-6 right-6 w-12 h-12 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white"
+                        aria-label="Close menu"
+                    >
+                        <X size={28} />
+                    </button>
+
+                    <nav className="flex flex-col space-y-6 mt-4">
                         {navLinks.map((item, i) => (
                             <motion.div
                                 key={item.href}
@@ -118,7 +127,7 @@ export function Header() {
                             >
                                 <Link
                                     href={item.href}
-                                    className={`text-3xl font-black uppercase tracking-tighter transition-all ${pathname === item.href ? "text-primary" : "text-white/60 hover:text-white"
+                                    className={`text-4xl font-black uppercase tracking-tighter transition-all ${pathname === item.href ? "text-primary border-b-4 border-primary inline-block" : "text-white/60 hover:text-white"
                                         }`}
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
