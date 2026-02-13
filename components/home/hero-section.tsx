@@ -107,7 +107,7 @@ export function HeroSection({ content }: { content: any }) {
                             <div className="hidden sm:block h-10 w-px bg-white/5" />
 
                             <div className="flex items-center space-x-3 opacity-40 grayscale hover:grayscale-0 transition-all">
-                                <span className="text-[10px] md:text-sm font-black tracking-widest uppercase text-white">Meta</span>
+                                <span className="text-[10px] md:text-sm font-black tracking-widest uppercase text-white">Instagram</span>
                                 <span className="text-[10px] md:text-sm font-black tracking-widest uppercase text-white">TikTok</span>
                                 <span className="text-[10px] md:text-sm font-black tracking-widest uppercase text-white">Google</span>
                             </div>

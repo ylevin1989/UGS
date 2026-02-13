@@ -49,7 +49,7 @@ export function CTASection() {
 
                         {/* Social proofs */}
                         <div className="pt-8 relative z-10 flex flex-wrap justify-center gap-8 opacity-40 grayscale items-center text-sm font-black uppercase tracking-widest">
-                            <span>Meta</span>
+                            <span>Instagram</span>
                             <span>TikTok</span>
                             <span>Google Ads</span>
                         </div>

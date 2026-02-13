@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getLeads, updateLeadStatus } from "@/app/actions/leads";
+import { getLeads } from "@/app/actions/leads";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Loader2, Mail, ExternalLink, Calendar, User, Phone, CheckCircle2, Clock } from "lucide-react";
+import { Loader2, Mail, ExternalLink, Calendar, User, Phone } from "lucide-react";
 import { toast } from "sonner";
 
 export function LeadsList() {
@@ -22,14 +22,7 @@ export function LeadsList() {
         loadLeads();
     }, []);
 
-    const toggleStatus = async (id: string, currentStatus: string) => {
-        const newStatus = currentStatus === "new" ? "contacted" : "new";
-        const result = await updateLeadStatus(id, newStatus);
-        if (result.success) {
-            setLeads(leads.map(l => l.id === id ? { ...l, status: newStatus } : l));
-            toast.success("Статус обновлен");
-        }
-    };
+
 
     if (loading) return <div className="flex justify-center p-12"><Loader2 className="animate-spin text-primary" /></div>;
 
@@ -114,19 +107,7 @@ export function LeadsList() {
                                 </div>
                             </div>
 
-                            <div className="flex flex-col justify-center gap-2 min-w-[140px]">
-                                <Button
-                                    size="sm"
-                                    onClick={() => toggleStatus(lead.id, lead.status)}
-                                    className={`rounded-xl font-bold h-10 ${lead.status === 'new' ? 'bg-primary text-black' : 'bg-white/5 text-zinc-500 hover:text-white'}`}
-                                >
-                                    {lead.status === 'new' ? (
-                                        <><Clock size={16} className="mr-2" /> Ожидает</>
-                                    ) : (
-                                        <><CheckCircle2 size={16} className="mr-2" /> Обработано</>
-                                    )}
-                                </Button>
-                            </div>
+
                         </div>
                     </Card>
                 ))}
