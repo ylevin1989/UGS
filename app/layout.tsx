@@ -41,8 +41,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru" className="dark">
-      <body className={`${inter.variable} font-sans antialiased`}>
-        {children}
+      <body className={`${inter.variable} font-sans antialiased overflow-x-hidden`}>
+        <div className="relative min-h-screen overflow-x-hidden">
+          {children}
+        </div>
         <TelegramWidget />
         <YandexMetrika />
         <Toaster theme="dark" position="top-center" />
