@@ -29,8 +29,8 @@ export function ContactModal({ type, trigger }: ContactModalProps) {
                     </Button>
                 )}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px] p-0 overflow-visible bg-transparent border-none shadow-none !translate-y-0 top-10 sm:top-[50%] sm:translate-y-[-50%]">
-                <div className="bg-[#0A0A0A] p-6 md:p-12 rounded-[2.5rem] md:rounded-[3rem] border border-white/10 shadow-[0_0_100px_rgba(0,0,0,1)] relative overflow-y-auto max-h-[85vh] sm:max-h-none">
+            <DialogContent className="sm:max-w-[600px] p-0 bg-transparent border-none shadow-none">
+                <div className="bg-[#0A0A0A] p-6 md:p-12 rounded-[2.5rem] md:rounded-[3rem] border border-white/10 shadow-[0_0_100px_rgba(0,0,0,1)] relative overflow-y-auto max-h-[90vh]">
                     <div className="absolute inset-0 bg-primary/5 rounded-[2.5rem] md:rounded-[3rem] pointer-events-none" />
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
                     <DialogHeader className="mb-6 md:mb-8">
