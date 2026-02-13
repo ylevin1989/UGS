@@ -86,4 +86,4 @@ export default nextConfig;
 2. On VPS: `git pull`.
 3. Create `.env` file in the same folder with your Telegram credentials.
 4. Run: `docker compose up -d --build`.
-5. Update your existing **Nginx Proxy Manager** or **Traefik** (or manual Nginx) to point your domain to `http://localhost:3005`.
+5. Update your existing **Nginx Proxy Manager** or **Traefik** (or manual Nginx) to point your domain `ugs.uno-ai.pw` to `http://localhost:3005`.

@@ -63,7 +63,7 @@ sudo nano /etc/nginx/sites-available/ugs-agency
 ```nginx
 server {
     listen 80;
-    server_name your-domain.com;
+    server_name ugs.uno-ai.pw;
 
     location / {
         proxy_pass http://localhost:3000;
@@ -88,7 +88,7 @@ sudo systemctl restart nginx
 
 ```bash
 sudo apt install certbot python3-certbot-nginx -y
-sudo certbot --nginx -d your-domain.com
+sudo certbot --nginx -d ugs.uno-ai.pw
 ```
 
 ---
