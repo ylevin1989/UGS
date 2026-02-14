@@ -8,7 +8,7 @@ export function FooterSocials() {
     const [contacts, setContacts] = useState<any>(null);
 
     useEffect(() => {
-        getContent().then(data => setContacts(data?.contacts));
+        getContent().then(result => setContacts(result?.data?.contacts));
     }, []);
 
     if (!contacts) return null;
