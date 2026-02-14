@@ -3,6 +3,7 @@ import { SITE_CONFIG } from "@/lib/constants";
 import { Mail, MessageCircle, MapPin } from "lucide-react";
 
 import { FooterSocials } from "./footer-socials";
+import { Logo } from "./logo";
 
 export function Footer({ lang = "ru" }: { lang?: string }) {
     return (
@@ -12,9 +13,7 @@ export function Footer({ lang = "ru" }: { lang?: string }) {
                     {/* Brand and Description */}
                     <div className="space-y-6 lg:col-span-1">
                         <Link href="/" className="inline-block">
-                            <span className="text-2xl font-black tracking-tighter text-primary uppercase">
-                                UGC AGENCY
-                            </span>
+                            <Logo />
                         </Link>
                         <p className="text-muted-foreground leading-relaxed max-w-sm">
                             {lang === "ru"
@@ -94,7 +93,7 @@ export function Footer({ lang = "ru" }: { lang?: string }) {
                 {/* Bottom Bar */}
                 <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
                     <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/40 space-x-4">
-                        <span>© {new Date().getFullYear()} {SITE_CONFIG.name}</span>
+                        <span>© 2026 {SITE_CONFIG.name}</span>
                         <span className="hidden md:inline">|</span>
                         <span>{SITE_CONFIG.company.legalName}</span>
                     </div>

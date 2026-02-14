@@ -1,5 +1,5 @@
 export const SITE_CONFIG = {
-  name: "UGC Performance Agency",
+  name: "HYPERLIFT",
   description: "Мы строим IT-инфраструктуру для массового инфлюенс-маркетинга. Превращаем просмотры в деньги.",
   contact: {
     email: {

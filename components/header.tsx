@@ -10,6 +10,7 @@ import { Phone, Globe } from "lucide-react";
 import { ContactModal } from "@/components/contact-modal";
 import { setLanguage } from "@/app/actions/content";
 import { useRouter } from "next/navigation";
+import { Logo } from "@/components/logo";
 
 export function Header({ phone, currentLang = "ru" }: { phone?: string, currentLang?: string }) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -61,10 +62,8 @@ export function Header({ phone, currentLang = "ru" }: { phone?: string, currentL
         <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 will-change-[padding] ${scrolled ? "py-2" : "py-4"}`}>
             <div className="container">
                 <div className={`glass rounded-full px-6 md:px-10 h-16 flex items-center justify-between transition-all duration-500 ${scrolled ? "bg-black/90 backdrop-blur-2xl shadow-2xl shadow-primary/10 border-white/10" : "bg-card/20"}`}>
-                    <Link href="/" className="flex items-center space-x-2 group shrink-0">
-                        <span className="text-xl md:text-2xl font-black tracking-tighter text-primary group-hover:scale-105 transition-transform">
-                            UGC <span className="hidden xs:inline">AGENCY</span>
-                        </span>
+                    <Link href="/" className="group shrink-0">
+                        <Logo />
                     </Link>
 
                     {/* Desktop Navigation */}

@@ -21,9 +21,12 @@ import {
     BarChart3,
     ArrowLeft,
     Layers,
-    Briefcase
+    Briefcase,
+    Menu,
+    X
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { Logo } from "@/components/logo";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { ImageUpload } from "@/components/admin/image-upload";
 import { LeadsList } from "@/components/admin/leads-list";
@@ -49,6 +52,7 @@ export default function AdminPage() {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [activeSection, setActiveSection] = useState("general");
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         async function load() {
@@ -106,7 +110,7 @@ export default function AdminPage() {
                                 {editLang.toUpperCase()}
                             </div>
                         </div>
-                        <Card className="p-8 glass space-y-6 border-white/10">
+                        <Card className="p-4 md:p-8 glass space-y-6 border-white/10">
                             <div className="space-y-4">
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Название сайта</label>
@@ -155,7 +159,7 @@ export default function AdminPage() {
                                 Editing: {editLang.toUpperCase()}
                             </div>
                         </div>
-                        <Card className="p-8 glass space-y-6 border-white/10">
+                        <Card className="p-4 md:p-8 glass space-y-6 border-white/10">
                             <div className="grid md:grid-cols-3 gap-4">
                                 {['title1', 'title2', 'title3'].map(t => (
                                     <div key={t} className="space-y-2">
@@ -279,7 +283,7 @@ export default function AdminPage() {
                         </div>
                         <div className="space-y-6">
                             {(content.process || []).map((step: any, idx: number) => (
-                                <Card key={idx} className="p-8 glass border-white/10 flex gap-8 items-start relative group">
+                                <Card key={idx} className="p-4 md:p-8 glass border-white/10 flex flex-col md:flex-row gap-4 md:gap-8 items-start relative group">
                                     <button
                                         onClick={() => {
                                             const newProcess = [...content.process];
@@ -415,7 +419,7 @@ export default function AdminPage() {
                         </div>
                         <div className="space-y-12">
                             {(content.cases || []).map((caseItem: any, idx: number) => (
-                                <Card key={idx} className="p-8 glass border-white/10 space-y-6 relative group">
+                                <Card key={idx} className="p-4 md:p-8 glass border-white/10 space-y-6 relative group">
                                     <button
                                         onClick={() => {
                                             const newCases = [...content.cases];
@@ -674,7 +678,7 @@ export default function AdminPage() {
                 return (
                     <div className="space-y-6">
                         <h2 className="text-2xl font-black uppercase tracking-tight text-white mb-8">Страница Креаторов</h2>
-                        <Card className="p-8 glass space-y-6 border-white/10">
+                        <Card className="p-4 md:p-8 glass space-y-6 border-white/10">
                             <div className="space-y-4">
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Заголовок</label>
@@ -789,7 +793,7 @@ export default function AdminPage() {
                 return (
                     <div className="space-y-6">
                         <h2 className="text-2xl font-black uppercase tracking-tight text-white mb-8">Контакты и Социальные сети</h2>
-                        <Card className="p-8 glass border-white/10 space-y-8">
+                        <Card className="p-4 md:p-8 glass border-white/10 space-y-8">
                             <div className="grid md:grid-cols-2 gap-6">
                                 {['email', 'telegram', 'whatsapp', 'instagram', 'vk'].map(c => (
                                     <div key={c} className="space-y-2">
@@ -812,60 +816,67 @@ export default function AdminPage() {
 
     return (
         <div className="min-h-screen bg-[#020202] text-white">
-            <div className="fixed top-0 left-0 right-0 h-20 bg-black/50 backdrop-blur-xl border-b border-white/5 z-50 px-8 flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                    <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-black font-black">U</div>
-                    <h1 className="text-xl font-black uppercase tracking-tighter">Admin Panel</h1>
+            <div className="fixed top-0 left-0 right-0 h-20 bg-black/50 backdrop-blur-xl border-b border-white/5 z-50 px-4 md:px-8 flex items-center justify-between">
+                <div className="flex items-center space-x-3 md:space-x-4">
+                    <button
+                        onClick={() => setMobileMenuOpen(true)}
+                        className="lg:hidden p-2 hover:bg-white/5 rounded-xl text-zinc-400"
+                    >
+                        <Menu size={24} />
+                    </button>
+                    <Logo iconOnly className="scale-75 md:scale-100" />
+                    <h1 className="text-sm md:text-xl font-black uppercase tracking-tighter">Admin Panel</h1>
                 </div>
-                <div className="flex items-center space-x-6">
-                    <div className="flex bg-white/5 p-1 rounded-xl border border-white/10">
+                <div className="flex items-center space-x-2 md:space-x-6">
+                    <div className="flex bg-white/5 p-1 rounded-xl border border-white/10 scale-90 md:scale-100">
                         <button
                             onClick={() => setEditLang("ru")}
-                            className={`px-4 py-2 rounded-lg text-xs font-black transition-all ${editLang === "ru" ? "bg-primary text-black" : "text-zinc-500 hover:text-white"}`}
+                            className={`px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-[10px] md:text-xs font-black transition-all ${editLang === "ru" ? "bg-primary text-black" : "text-zinc-500 hover:text-white"}`}
                         >
                             RU
                         </button>
                         <button
                             onClick={() => setEditLang("en")}
-                            className={`px-4 py-2 rounded-lg text-xs font-black transition-all ${editLang === "en" ? "bg-primary text-black" : "text-zinc-500 hover:text-white"}`}
+                            className={`px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-[10px] md:text-xs font-black transition-all ${editLang === "en" ? "bg-primary text-black" : "text-zinc-500 hover:text-white"}`}
                         >
                             EN
                         </button>
                     </div>
-                    <Link href="/" className="flex items-center text-sm font-bold opacity-50 hover:opacity-100 transition-opacity">
+                    <Link href="/" className="hidden lg:flex items-center text-sm font-bold opacity-50 hover:opacity-100 transition-opacity">
                         <ArrowLeft size={16} className="mr-2" /> Сайт
                     </Link>
                     <Button
                         onClick={handleSave}
                         disabled={saving}
-                        className="bg-primary hover:bg-primary/80 text-black font-black uppercase tracking-tight h-11 px-6 rounded-xl shadow-lg shadow-primary/20"
+                        className="bg-primary hover:bg-primary/80 text-black font-black uppercase tracking-tight h-10 md:h-11 px-4 md:px-6 rounded-xl shadow-lg shadow-primary/20 scale-90 md:scale-100"
                     >
                         {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
-                        Сохранить {editLang.toUpperCase()}
+                        <span className="hidden sm:inline">Сохранить {editLang.toUpperCase()}</span>
+                        <span className="sm:hidden">OK</span>
                     </Button>
                 </div>
             </div>
 
             <div className="flex pt-20 min-h-screen">
                 <aside className="w-72 fixed left-0 top-20 bottom-0 bg-[#050505] border-r border-white/5 p-6 overflow-y-auto hidden lg:block">
-                    <div className="space-y-2">
+                    <div className="space-y-1">
                         {SECTIONS.map((section) => (
                             <button
                                 key={section.id}
                                 onClick={() => setActiveSection(section.id)}
-                                className={`w-full flex items-center space-x-3 px-4 py-4 rounded-2xl transition-all group ${activeSection === section.id
+                                className={`w-full flex items-center space-x-3 px-4 py-3.5 rounded-2xl transition-all group ${activeSection === section.id
                                     ? "bg-primary text-black"
                                     : "text-zinc-500 hover:bg-white/5 hover:text-white"
                                     }`}
                             >
-                                <section.icon size={20} className={`${activeSection === section.id ? "text-black" : "group-hover:text-primary"} transition-colors`} />
-                                <span className="text-sm font-black uppercase tracking-tight">{section.label}</span>
-                                {activeSection === section.id && <ChevronRight size={16} className="ml-auto" />}
+                                <section.icon size={18} className={`${activeSection === section.id ? "text-black" : "group-hover:text-primary"} transition-colors`} />
+                                <span className="text-xs font-black uppercase tracking-tight">{section.label}</span>
+                                {activeSection === section.id && <ChevronRight size={14} className="ml-auto" />}
                             </button>
                         ))}
                     </div>
 
-                    <div className="mt-12 pt-12 border-t border-white/5">
+                    <div className="mt-8 pt-8 border-t border-white/5">
                         <div className="p-4 rounded-2xl bg-zinc-900/50 border border-white/5">
                             <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-2">System Status</p>
                             <div className="flex items-center space-x-2">
@@ -876,7 +887,59 @@ export default function AdminPage() {
                     </div>
                 </aside>
 
-                <main className="flex-grow lg:ml-72 p-8 md:p-12 pb-32">
+                <AnimatePresence>
+                    {mobileMenuOpen && (
+                        <>
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] lg:hidden"
+                            />
+                            <motion.aside
+                                initial={{ x: "-100%" }}
+                                animate={{ x: 0 }}
+                                exit={{ x: "-100%" }}
+                                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                                className="fixed left-0 top-0 bottom-0 w-80 bg-[#050505] z-[70] p-6 lg:hidden flex flex-col"
+                            >
+                                <div className="flex items-center justify-between mb-8">
+                                    <Logo />
+                                    <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-zinc-500">
+                                        <X size={24} />
+                                    </button>
+                                </div>
+                                <div className="space-y-1 flex-grow overflow-y-auto">
+                                    {SECTIONS.map((section) => (
+                                        <button
+                                            key={section.id}
+                                            onClick={() => {
+                                                setActiveSection(section.id);
+                                                setMobileMenuOpen(false);
+                                            }}
+                                            className={`w-full flex items-center space-x-3 px-4 py-4 rounded-2xl transition-all group ${activeSection === section.id
+                                                ? "bg-primary text-black"
+                                                : "text-zinc-500 hover:bg-white/5 hover:text-white"
+                                                }`}
+                                        >
+                                            <section.icon size={20} className={`${activeSection === section.id ? "text-black" : "group-hover:text-primary"} transition-colors`} />
+                                            <span className="text-sm font-black uppercase tracking-tight">{section.label}</span>
+                                            {activeSection === section.id && <ChevronRight size={16} className="ml-auto" />}
+                                        </button>
+                                    ))}
+                                </div>
+                                <div className="mt-auto pt-6 border-t border-white/5">
+                                    <Link href="/" className="flex items-center text-sm font-bold text-zinc-500 px-4 py-2">
+                                        <ArrowLeft size={16} className="mr-2" /> Вернуться на сайт
+                                    </Link>
+                                </div>
+                            </motion.aside>
+                        </>
+                    )}
+                </AnimatePresence>
+
+                <main className="flex-grow lg:ml-72 p-4 md:p-8 lg:p-12 pb-32">
                     <div className="max-w-5xl mx-auto">
                         <motion.div
                             key={activeSection}

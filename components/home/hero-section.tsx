@@ -49,9 +49,9 @@ export function HeroSection({ content }: { content: any }) {
                                 </span>
                                 <span className="text-[10px] font-black tracking-[0.2em] uppercase text-zinc-400">
                                     {content.lang === "ru" || !content.lang ? (
-                                        <>UGC-АГЕНТСТВО <span className="text-primary italic">№1</span></>
+                                        <>HYPERLIFT: UGC-АГЕНТСТВО <span className="text-primary italic">№1</span></>
                                     ) : (
-                                        <>Top Rated <span className="text-primary italic">UGC Factory</span></>
+                                        <>HYPERLIFT: Top Rated <span className="text-primary italic">UGC Factory</span></>
                                     )}
                                 </span>
                             </motion.div>
