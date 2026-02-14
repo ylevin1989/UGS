@@ -27,9 +27,14 @@ const getCachedData = unstable_cache(
 
 export const getContent = React.cache(async function getContent(requestedLang?: string) {
     const cookieStore = await cookies();
-    const lang = requestedLang || cookieStore.get("lang")?.value || "ru";
-    const data = await getCachedData(lang);
-    return { data, lang };
+    // Strict priority: function arg > cookie > default 'ru'
+    const lang = requestedLang || (await cookieStore).get("lang")?.value || "ru";
+
+    // Safety check: only allow 'ru' or 'en'
+    const finalLang = (lang === "ru" || lang === "en") ? lang : "ru";
+
+    const data = await getCachedData(finalLang);
+    return { data, lang: finalLang };
 });
 
 export async function setLanguage(lang: string) {

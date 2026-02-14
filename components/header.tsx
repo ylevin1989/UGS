@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { usePathname } from "next/navigation";
 import { Phone, Globe } from "lucide-react";
 import { ContactModal } from "@/components/contact-modal";
@@ -25,11 +25,24 @@ export function Header({ phone, currentLang = "ru" }: { phone?: string, currentL
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    const [isPending, startTransition] = useTransition();
+    const [optimisticLang, setOptimisticLang] = useState(currentLang);
+
+    useEffect(() => {
+        setOptimisticLang(currentLang);
+    }, [currentLang]);
+
     const toggleLang = () => {
-        const newLang = currentLang === "ru" ? "en" : "ru";
-        // Fast client-side cookie set
-        document.cookie = `lang=${newLang}; path=/; max-age=31536000; SameSite=Lax`;
-        router.refresh();
+        const newLang = optimisticLang === "ru" ? "en" : "ru";
+        setOptimisticLang(newLang); // Instant UI update
+
+        startTransition(async () => {
+            // Fast client-side cookie set
+            document.cookie = `lang=${newLang}; path=/; max-age=31536000; SameSite=Lax`;
+
+            // Trigger server refresh
+            router.refresh();
+        });
     };
 
     const navLinks = currentLang === "ru" ? [
@@ -77,13 +90,26 @@ export function Header({ phone, currentLang = "ru" }: { phone?: string, currentL
                                 <span>{phone}</span>
                             </a>
                         )}
-                        <button
-                            onClick={toggleLang}
-                            className="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-primary/50 transition-all group"
-                        >
-                            <Globe size={14} className="group-hover:text-primary transition-colors" />
-                            <span className="text-[10px] font-black uppercase tracking-widest">{currentLang}</span>
-                        </button>
+                        <div className={`relative flex items-center bg-white/5 border border-white/10 rounded-full p-1 h-9 w-[100px] transition-opacity ${isPending ? "opacity-70" : "opacity-100"}`}>
+                            <motion.div
+                                className="absolute top-1 bottom-1 w-[46px] bg-primary rounded-full shadow-lg shadow-primary/20"
+                                initial={false}
+                                animate={{ x: optimisticLang === "ru" ? 0 : 44 }}
+                                transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                            />
+                            <button
+                                onClick={() => optimisticLang !== "ru" && toggleLang()}
+                                className={`relative flex-1 text-[10px] font-black uppercase text-center transition-colors duration-200 ${optimisticLang === "ru" ? "text-primary-foreground" : "text-zinc-500 hover:text-white"}`}
+                            >
+                                RU
+                            </button>
+                            <button
+                                onClick={() => optimisticLang !== "en" && toggleLang()}
+                                className={`relative flex-1 text-[10px] font-black uppercase text-center transition-colors duration-200 ${optimisticLang === "en" ? "text-primary-foreground" : "text-zinc-500 hover:text-white"}`}
+                            >
+                                EN
+                            </button>
+                        </div>
 
                         <div className="hidden sm:block">
                             <ContactModal type="client" />
@@ -184,15 +210,29 @@ export function Header({ phone, currentLang = "ru" }: { phone?: string, currentL
                             <div className="flex items-center space-x-3">
                                 <Globe size={20} className="text-primary" />
                                 <span className="font-bold uppercase tracking-tight text-sm">
-                                    {currentLang === "ru" ? "Язык сайта" : "Language"}
+                                    {currentLang === "ru" ? "Язык" : "Language"}
                                 </span>
                             </div>
-                            <button
-                                onClick={toggleLang}
-                                className="px-4 py-2 rounded-xl bg-primary text-primary-foreground font-black text-xs uppercase"
-                            >
-                                {currentLang === "ru" ? "EN" : "RU"}
-                            </button>
+                            <div className={`relative flex items-center bg-black/40 border border-white/10 rounded-xl p-1 h-10 w-[110px] transition-opacity ${isPending ? "opacity-70" : "opacity-100"}`}>
+                                <motion.div
+                                    className="absolute top-1 bottom-1 w-[50px] bg-primary rounded-lg"
+                                    initial={false}
+                                    animate={{ x: optimisticLang === "ru" ? 0 : 48 }}
+                                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                                />
+                                <button
+                                    onClick={() => optimisticLang !== "ru" && toggleLang()}
+                                    className={`relative flex-1 text-[10px] font-black uppercase text-center transition-colors duration-200 ${optimisticLang === "ru" ? "text-primary-foreground" : "text-white/40"}`}
+                                >
+                                    RU
+                                </button>
+                                <button
+                                    onClick={() => optimisticLang !== "en" && toggleLang()}
+                                    className={`relative flex-1 text-[10px] font-black uppercase text-center transition-colors duration-200 ${optimisticLang === "en" ? "text-primary-foreground" : "text-white/40"}`}
+                                >
+                                    EN
+                                </button>
+                            </div>
                         </motion.div>
 
                         <motion.div
