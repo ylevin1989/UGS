@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ClientForm } from "@/components/forms/client-form";
 import { CreatorForm } from "@/components/forms/creator-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ContactModalProps {
     type: "client" | "creator";
@@ -20,6 +20,22 @@ interface ContactModalProps {
 
 export function ContactModal({ type, trigger, lang = "ru" }: ContactModalProps) {
     const [open, setOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    // Prevent hydration mismatch by waiting for mount
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) {
+        return trigger || (
+            <Button size="lg" className="rounded-full px-8 h-12 font-bold shadow-xl">
+                {type === "client"
+                    ? (lang === "ru" ? "Запустить рекламу" : "Start growth")
+                    : (lang === "ru" ? "Стать креатором" : "Become creator")}
+            </Button>
+        );
+    }
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>

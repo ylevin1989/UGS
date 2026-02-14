@@ -45,7 +45,7 @@ export default async function RootLayout({
   const lang = contentResult?.lang || "ru";
 
   return (
-    <html lang={lang} className="dark">
+    <html lang={lang} className="dark" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased overflow-x-hidden`}>
         <div className="relative min-h-screen overflow-x-hidden">
           {children}

@@ -58,7 +58,7 @@ export function Header({ phone, currentLang = "ru" }: { phone?: string, currentL
     ];
 
     return (
-        <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "py-2" : "py-4"}`}>
+        <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 will-change-[padding] ${scrolled ? "py-2" : "py-4"}`}>
             <div className="container">
                 <div className={`glass rounded-full px-6 md:px-10 h-16 flex items-center justify-between transition-all duration-500 ${scrolled ? "bg-black/90 backdrop-blur-2xl shadow-2xl shadow-primary/10 border-white/10" : "bg-card/20"}`}>
                     <Link href="/" className="flex items-center space-x-2 group shrink-0">
