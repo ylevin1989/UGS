@@ -8,6 +8,12 @@ import { CASE_STUDIES } from "@/lib/constants";
 import { getContent } from "@/app/actions/content";
 import { ContactModal } from "@/components/contact-modal";
 import { ClientMotionWrapper } from "@/components/client-motion-wrapper";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Кейсы | HYPERLIFT",
+    description: "Наши истории успеха. Посмотрите, как мы масштабируем бренды через виральный UGC контент и перфоманс маркетинг.",
+};
 
 export default async function CasesPage() {
     const result = await getContent();

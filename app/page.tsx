@@ -1,4 +1,11 @@
 import { getContent } from "@/app/actions/content";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "HYPERLIFT | UGC Performance Agency No.1",
+  description: "Мы строим IT-инфраструктуру для массового инфлюенс-маркетинга. Превращаем просмотры в деньги через виральный UGC контент.",
+};
+
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { HeroSection } from "@/components/home/hero-section";

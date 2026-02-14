@@ -11,6 +11,12 @@ import {
 } from "@/components/ui/accordion";
 import { getContent } from "@/app/actions/content";
 import { ClientMotionWrapper } from "@/components/client-motion-wrapper";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Контакты | HYPERLIFT",
+    description: "Свяжитесь с нами для обсуждения вашей следующей UGC-кампании. Наш офис на Пхукете всегда на связи.",
+};
 
 export default async function ContactsPage() {
     const result = await getContent();

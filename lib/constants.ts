@@ -1,14 +1,22 @@
 export const SITE_CONFIG = {
   name: "HYPERLIFT",
-  description: "Мы строим IT-инфраструктуру для массового инфлюенс-маркетинга. Превращаем просмотры в деньги.",
+  baseUrl: process.env.NEXT_PUBLIC_BASE_URL || "https://hyperlift.agency", // Change this when domain is active
+  description: {
+    ru: "HYPERLIFT — IT-инфраструктура для массового инфлюенс-маркетинга. Создаем виральный UGC контент для TikTok, Reels и Shorts. Превращаем просмотры в продажи.",
+    en: "HYPERLIFT — IT infrastructure for mass influence marketing. We create viral UGC content for TikTok, Reels, and Shorts. Turning views into sales.",
+  },
+  keywords: {
+    ru: ["UGC", "перфоманс маркетинг", "TikTok", "Reels", "Shorts", "блогеры", "креаторы", "реклама", "продакшн", "инфлюенс маркетинг"],
+    en: ["UGC", "performance marketing", "TikTok", "Reels", "Shorts", "bloggers", "creators", "advertising", "production", "influence marketing"],
+  },
   contact: {
     email: {
-      clients: "hello@your-agency.com",
-      creators: "creators@your-agency.com",
+      clients: "hello@hyperlift.agency",
+      creators: "creators@hyperlift.agency",
     },
     telegram: {
-      manager: "@your_agency_manager",
-      bot: "@your_agency_bot",
+      manager: "@hyperlift_manager",
+      bot: "@hyperlift_bot",
     },
     workingHours: "Пн-Пт, 10:00 — 19:00 (GMT+7 / BKK Time)",
   },

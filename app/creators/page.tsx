@@ -14,6 +14,12 @@ import { CREATOR_FAQ } from "@/lib/constants";
 import { ContactModal } from "@/components/contact-modal";
 import { getContent } from "@/app/actions/content";
 import { ClientMotionWrapper } from "@/components/client-motion-wrapper";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Креаторам | HYPERLIFT",
+    description: "Стань частью нашей сети UGC-креаторов. Снимай видео на телефон и зарабатывай на контенте для топовых брендов.",
+};
 
 export default async function CreatorsPage() {
     const result = await getContent();
