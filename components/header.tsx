@@ -90,7 +90,7 @@ export function Header({ phone, currentLang = "ru" }: { phone?: string, currentL
                                 <span>{phone}</span>
                             </a>
                         )}
-                        <div className={`relative flex items-center bg-white/5 border border-white/10 rounded-full p-1 h-9 w-[100px] transition-opacity ${isPending ? "opacity-70" : "opacity-100"}`}>
+                        <div className={`hidden md:flex relative items-center bg-white/5 border border-white/10 rounded-full p-1 h-9 w-[100px] transition-opacity ${isPending ? "opacity-70" : "opacity-100"}`}>
                             <motion.div
                                 className="absolute top-1 bottom-1 w-[46px] bg-primary rounded-full shadow-lg shadow-primary/20"
                                 initial={false}

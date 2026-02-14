@@ -56,7 +56,7 @@ export default async function CreatorsPage() {
             <Header phone={content.site?.phone} currentLang={lang} />
             <main>
                 {/* Hero Section */}
-                <section className="relative pt-16 lg:pt-24 pb-16 overflow-hidden min-h-[70vh] flex items-center">
+                <section className="relative pt-24 lg:pt-24 pb-16 overflow-hidden min-h-[70vh] flex items-center">
                     <div className="absolute inset-0 z-0">
                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(132,204,22,0.15),transparent_50%)]" />
                     </div>
