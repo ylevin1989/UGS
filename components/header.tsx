@@ -63,7 +63,7 @@ export function Header({ phone, currentLang = "ru" }: { phone?: string, currentL
                 <div className={`glass rounded-full px-6 md:px-10 h-16 flex items-center justify-between transition-all duration-500 ${scrolled ? "bg-black/90 backdrop-blur-2xl shadow-2xl shadow-primary/10 border-white/10" : "bg-card/20"}`}>
                     <Link href="/" className="flex items-center space-x-2 group shrink-0">
                         <span className="text-xl md:text-2xl font-black tracking-tighter text-primary group-hover:scale-105 transition-transform">
-                            UGC AGENCY
+                            UGC <span className="hidden xs:inline">AGENCY</span>
                         </span>
                     </Link>
 
@@ -90,11 +90,11 @@ export function Header({ phone, currentLang = "ru" }: { phone?: string, currentL
                                 <span>{phone}</span>
                             </a>
                         )}
-                        <div className={`hidden md:flex relative items-center bg-white/5 border border-white/10 rounded-full p-1 h-9 w-[100px] transition-opacity ${isPending ? "opacity-70" : "opacity-100"}`}>
+                        <div className={`relative flex items-center bg-white/5 border border-white/10 rounded-full p-1 h-8 md:h-9 w-[90px] md:w-[100px] transition-opacity ${isPending ? "opacity-70" : "opacity-100"}`}>
                             <motion.div
-                                className="absolute top-1 bottom-1 w-[46px] bg-primary rounded-full shadow-lg shadow-primary/20"
+                                className="absolute top-1 bottom-1 w-[40px] md:w-[46px] bg-primary rounded-full shadow-lg shadow-primary/20"
                                 initial={false}
-                                animate={{ x: optimisticLang === "ru" ? 0 : 44 }}
+                                animate={{ x: optimisticLang === "ru" ? 0 : 46 }}
                                 transition={{ type: "spring", stiffness: 350, damping: 30 }}
                             />
                             <button
