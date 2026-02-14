@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { ContactModal } from "@/components/contact-modal";
 
 import { CreatorGrid } from "./creator-grid";
@@ -32,14 +33,14 @@ export function HeroSection({ content }: { content: any }) {
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8 }}
+                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                         className="space-y-10 text-center lg:text-left z-20"
                     >
                         <div className="space-y-6">
                             <motion.div
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2 }}
+                                transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                                 className="inline-flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 backdrop-blur-sm"
                             >
                                 <span className="relative flex h-2 w-2">
@@ -47,11 +48,16 @@ export function HeroSection({ content }: { content: any }) {
                                     <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                                 </span>
                                 <span className="text-[10px] font-black tracking-[0.2em] uppercase text-zinc-400">
-                                    Top Rated <span className="text-primary italic">UGC Factory</span>
+                                    {content.lang === "ru" || !content.lang ? (
+                                        <>UGC-АГЕНТСТВО <span className="text-primary italic">№1</span></>
+                                    ) : (
+                                        <>Top Rated <span className="text-primary italic">UGC Factory</span></>
+                                    )}
                                 </span>
                             </motion.div>
 
-                            <h1 className="text-4xl sm:text-6xl md:text-8xl xl:text-9xl font-black leading-[0.85] tracking-tighter uppercase text-white">
+                            <h1 className={`text-4xl sm:text-6xl md:text-8xl xl:text-9xl font-black tracking-tighter uppercase text-white ${content.lang === "ru" || !content.lang ? "leading-[1.05] md:leading-[1]" : "leading-[0.85]"
+                                }`}>
                                 {hero.title1} <br />
                                 <span className="text-primary tracking-tighter italic">{hero.title2}</span> <br />
                                 {hero.title3}
@@ -86,13 +92,24 @@ export function HeroSection({ content }: { content: any }) {
                             </Link>
                         </div>
 
+                        {content.creator_cta && (
+                            <Link href={content.creator_cta.link} className="inline-block text-sm font-bold text-zinc-500 hover:text-primary transition-colors underline decoration-primary/30 underline-offset-4">
+                                {content.creator_cta.text} →
+                            </Link>
+                        )}
+
                         {/* Social Proof Badges */}
                         <div className="flex flex-wrap items-center justify-center lg:justify-start gap-8 pt-8 border-t border-white/5">
                             <div className="flex items-center space-x-4">
                                 <div className="flex -space-x-4">
-                                    {[1, 2, 3].map((i) => (
+                                    {(hero.socialAvatars || ["/test_img_5_1771030911755.png", "/creator_julia_public_1771031028932.png", "/beauty_ugc_new_1771030030660.png"]).map((src: string, i: number) => (
                                         <div key={i} className="w-10 h-10 md:w-12 md:h-12 rounded-full border-4 border-background bg-zinc-800 shadow-xl overflow-hidden relative">
-                                            <div className="absolute inset-0 bg-primary/20" />
+                                            <Image
+                                                src={src}
+                                                alt="Creator"
+                                                fill
+                                                className="object-cover"
+                                            />
                                         </div>
                                     ))}
                                 </div>
@@ -100,7 +117,9 @@ export function HeroSection({ content }: { content: any }) {
                                     <div className="flex text-primary mb-1">
                                         {[...Array(5)].map((_, i) => <span key={i} className="text-[12px] md:text-[14px]">★</span>)}
                                     </div>
-                                    <span className="block font-black uppercase tracking-widest text-zinc-500">5000+ Creators</span>
+                                    <span className="block font-black uppercase tracking-widest text-zinc-500">
+                                        {content.stats?.[0]?.value || "5000+"} {content.stats?.[0]?.label || "Creators"}
+                                    </span>
                                 </div>
                             </div>
 

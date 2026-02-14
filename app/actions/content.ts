@@ -2,28 +2,58 @@
 
 import fs from "fs/promises";
 import path from "path";
-import { revalidatePath } from "next/cache";
-import { cache } from "react";
+import * as React from "react";
+import { revalidatePath, unstable_cache } from "next/cache";
+import { cookies } from "next/headers";
 
-const CONTENT_PATH = path.join(process.cwd(), "data", "content.json");
+const getCachedData = unstable_cache(
+    async (lang: string) => {
+        const contentPath = path.join(process.cwd(), "data", `${lang}.json`);
+        try {
+            const fileContent = await fs.readFile(contentPath, "utf-8");
+            return JSON.parse(fileContent);
+        } catch (e) {
+            if (lang !== "ru") {
+                const fallbackPath = path.join(process.cwd(), "data", "ru.json");
+                const fileContent = await fs.readFile(fallbackPath, "utf-8");
+                return JSON.parse(fileContent);
+            }
+            return null;
+        }
+    },
+    ["site-content"],
+    { tags: ["content"], revalidate: 3600 }
+);
 
-export const getContent = cache(async function getContent() {
-    try {
-        const fileContent = await fs.readFile(CONTENT_PATH, "utf-8");
-        return JSON.parse(fileContent);
-    } catch (error) {
-        console.error("Error reading content.json:", error);
-        return null;
-    }
+export const getContent = React.cache(async function getContent(requestedLang?: string) {
+    const cookieStore = await cookies();
+    const lang = requestedLang || cookieStore.get("lang")?.value || "ru";
+    const data = await getCachedData(lang);
+    return { data, lang };
 });
 
-export async function updateContent(newData: any) {
+export async function setLanguage(lang: string) {
+    const cookieStore = await cookies();
+    cookieStore.set("lang", lang);
+    revalidatePath("/");
+    return { success: true };
+}
+
+export async function updateContent(newData: any, targetLang?: string) {
     try {
-        await fs.writeFile(CONTENT_PATH, JSON.stringify(newData, null, 2), "utf-8");
+        const cookieStore = await cookies();
+        const lang = targetLang || cookieStore.get("lang")?.value || "ru";
+        const contentPath = path.join(process.cwd(), "data", `${lang}.json`);
+
+        await fs.writeFile(contentPath, JSON.stringify(newData, null, 2), "utf-8");
         revalidatePath("/");
         return { success: true };
     } catch (error) {
         console.error("Error updating content:", error);
         return { success: false, error: "Failed to save data" };
     }
+}
+
+export async function updateContentByLang(lang: string, newData: any) {
+    return updateContent(newData, lang);
 }

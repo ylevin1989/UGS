@@ -40,10 +40,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const content = await getContent();
+  const contentResult = await getContent();
+  const content = contentResult?.data;
+  const lang = contentResult?.lang || "ru";
 
   return (
-    <html lang="ru" className="dark">
+    <html lang={lang} className="dark">
       <body className={`${inter.variable} font-sans antialiased overflow-x-hidden`}>
         <div className="relative min-h-screen overflow-x-hidden">
           {children}

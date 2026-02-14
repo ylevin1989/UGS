@@ -6,14 +6,16 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { getContent } from "@/app/actions/content";
-import { Phone } from "lucide-react";
+import { Phone, Globe } from "lucide-react";
 import { ContactModal } from "@/components/contact-modal";
+import { setLanguage } from "@/app/actions/content";
+import { useRouter } from "next/navigation";
 
-export function Header({ phone }: { phone?: string }) {
+export function Header({ phone, currentLang = "ru" }: { phone?: string, currentLang?: string }) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const pathname = usePathname();
+    const router = useRouter();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -23,11 +25,23 @@ export function Header({ phone }: { phone?: string }) {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const navLinks = [
+    const toggleLang = () => {
+        const newLang = currentLang === "ru" ? "en" : "ru";
+        // Fast client-side cookie set
+        document.cookie = `lang=${newLang}; path=/; max-age=31536000; SameSite=Lax`;
+        router.refresh();
+    };
+
+    const navLinks = currentLang === "ru" ? [
         { name: "Главная", href: "/" },
         { name: "Кейсы", href: "/cases" },
         { name: "Креаторам", href: "/creators" },
         { name: "Контакты", href: "/contacts" },
+    ] : [
+        { name: "Home", href: "/" },
+        { name: "Cases", href: "/cases" },
+        { name: "Creators", href: "/creators" },
+        { name: "Contacts", href: "/contacts" },
     ];
 
     return (
@@ -63,6 +77,14 @@ export function Header({ phone }: { phone?: string }) {
                                 <span>{phone}</span>
                             </a>
                         )}
+                        <button
+                            onClick={toggleLang}
+                            className="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-primary/50 transition-all group"
+                        >
+                            <Globe size={14} className="group-hover:text-primary transition-colors" />
+                            <span className="text-[10px] font-black uppercase tracking-widest">{currentLang}</span>
+                        </button>
+
                         <div className="hidden sm:block">
                             <ContactModal type="client" />
                         </div>
@@ -142,7 +164,9 @@ export function Header({ phone }: { phone?: string }) {
                                 transition={{ delay: 0.4 }}
                                 className="space-y-2"
                             >
-                                <div className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Связаться с нами</div>
+                                <div className="text-[10px] font-black uppercase tracking-widest text-zinc-500">
+                                    {currentLang === "ru" ? "Связаться с нами" : "Contact us"}
+                                </div>
                                 <a href={`tel:${phone.replace(/\D/g, '')}`} className="flex items-center space-x-3 text-xl font-bold text-white hover:text-primary transition-colors">
                                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                                         <Phone size={18} fill="currentColor" />
@@ -153,6 +177,25 @@ export function Header({ phone }: { phone?: string }) {
                         )}
 
                         <motion.div
+                            variants={{ open: { opacity: 1, y: 0 }, closed: { opacity: 0, y: 10 } }}
+                            transition={{ delay: 0.45 }}
+                            className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10"
+                        >
+                            <div className="flex items-center space-x-3">
+                                <Globe size={20} className="text-primary" />
+                                <span className="font-bold uppercase tracking-tight text-sm">
+                                    {currentLang === "ru" ? "Язык сайта" : "Language"}
+                                </span>
+                            </div>
+                            <button
+                                onClick={toggleLang}
+                                className="px-4 py-2 rounded-xl bg-primary text-primary-foreground font-black text-xs uppercase"
+                            >
+                                {currentLang === "ru" ? "EN" : "RU"}
+                            </button>
+                        </motion.div>
+
+                        <motion.div
                             variants={{ open: { opacity: 1, y: 0 }, closed: { opacity: 0, y: 20 } }}
                             transition={{ delay: 0.5 }}
                         >
@@ -160,7 +203,7 @@ export function Header({ phone }: { phone?: string }) {
                                 type="client"
                                 trigger={
                                     <Button className="w-full rounded-2xl h-16 text-lg font-black uppercase tracking-tight shadow-xl shadow-primary/20">
-                                        Запустить рекламу
+                                        {currentLang === "ru" ? "Запустить рекламу" : "Start growth"}
                                     </Button>
                                 }
                             />

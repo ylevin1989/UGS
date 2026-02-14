@@ -4,7 +4,7 @@ import { Mail, MessageCircle, MapPin } from "lucide-react";
 
 import { FooterSocials } from "./footer-socials";
 
-export function Footer() {
+export function Footer({ lang = "ru" }: { lang?: string }) {
     return (
         <footer className="bg-card/30 border-t border-white/5 pt-20 pb-10">
             <div className="container">
@@ -17,14 +17,18 @@ export function Footer() {
                             </span>
                         </Link>
                         <p className="text-muted-foreground leading-relaxed max-w-sm">
-                            Мы строим IT-инфраструктуру для массового инфлюенс-маркетинга. Превращаем просмотры в деньги.
+                            {lang === "ru"
+                                ? "Мы строим IT-инфраструктуру для массового инфлюенс-маркетинга. Превращаем просмотры в деньги."
+                                : "We build IT infrastructure for mass influence marketing. Turning views into revenue."}
                         </p>
                         <FooterSocials />
                     </div>
 
                     {/* Contact Details */}
                     <div className="space-y-6">
-                        <h4 className="text-sm font-black uppercase tracking-widest text-white">Контакты</h4>
+                        <h4 className="text-sm font-black uppercase tracking-widest text-white">
+                            {lang === "ru" ? "Контакты" : "Contacts"}
+                        </h4>
                         <div className="space-y-4">
                             <a href={`mailto:${SITE_CONFIG.contact.email.clients}`} className="flex items-center space-x-3 text-muted-foreground hover:text-primary transition-colors group">
                                 <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
@@ -45,21 +49,35 @@ export function Footer() {
 
                     {/* Quick Links */}
                     <div className="space-y-6">
-                        <h4 className="text-sm font-black uppercase tracking-widest text-white">Навигация</h4>
+                        <h4 className="text-sm font-black uppercase tracking-widest text-white">
+                            {lang === "ru" ? "Навигация" : "Navigation"}
+                        </h4>
                         <nav className="flex flex-col space-y-3">
-                            <Link href="/cases" className="text-sm font-bold text-muted-foreground hover:text-primary transition-colors">Кейсы</Link>
-                            <Link href="/creators" className="text-sm font-bold text-muted-foreground hover:text-primary transition-colors">Креаторам</Link>
-                            <Link href="/contacts" className="text-sm font-bold text-muted-foreground hover:text-primary transition-colors">Контакты</Link>
-                            <Link href="/privacy" className="text-sm font-bold text-muted-foreground hover:text-primary transition-colors">Политика конфиденциальности</Link>
+                            <Link href="/cases" className="text-sm font-bold text-muted-foreground hover:text-primary transition-colors">
+                                {lang === "ru" ? "Кейсы" : "Cases"}
+                            </Link>
+                            <Link href="/creators" className="text-sm font-bold text-muted-foreground hover:text-primary transition-colors">
+                                {lang === "ru" ? "Креаторам" : "Creators"}
+                            </Link>
+                            <Link href="/contacts" className="text-sm font-bold text-muted-foreground hover:text-primary transition-colors">
+                                {lang === "ru" ? "Контакты" : "Contacts"}
+                            </Link>
+                            <Link href="/privacy" className="text-sm font-bold text-muted-foreground hover:text-primary transition-colors">
+                                {lang === "ru" ? "Политика конфиденциальности" : "Privacy Policy"}
+                            </Link>
                         </nav>
                     </div>
 
                     {/* Legal / Bot */}
                     <div className="space-y-6">
-                        <h4 className="text-sm font-black uppercase tracking-widest text-white">Сотрудничество</h4>
+                        <h4 className="text-sm font-black uppercase tracking-widest text-white">
+                            {lang === "ru" ? "Сотрудничество" : "Partnership"}
+                        </h4>
                         <div className="space-y-4">
                             <p className="text-sm text-muted-foreground font-medium">
-                                Хочешь стать частью нашей команды креаторов?
+                                {lang === "ru"
+                                    ? "Хочешь стать частью нашей команды креаторов?"
+                                    : "Want to become part of our creator team?"}
                             </p>
                             <a
                                 href={`https://t.me/${SITE_CONFIG.contact.telegram.bot.replace('@', '')}`}
@@ -67,7 +85,7 @@ export function Footer() {
                                 className="inline-flex items-center space-x-2 bg-primary text-black rounded-xl px-5 py-3 text-sm font-black uppercase tracking-tight transition-all hover:scale-105 active:scale-95"
                             >
                                 <MessageCircle size={16} fill="currentColor" />
-                                <span>Стать креатором</span>
+                                <span>{lang === "ru" ? "Стать креатором" : "Become a creator"}</span>
                             </a>
                         </div>
                     </div>
@@ -81,8 +99,12 @@ export function Footer() {
                         <span>{SITE_CONFIG.company.legalName}</span>
                     </div>
                     <div className="flex space-x-6 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/40">
-                        <Link href="/privacy" className="hover:text-primary transition-colors">Согласие на обработку данных</Link>
-                        <Link href="/terms" className="hover:text-primary transition-colors">Пользовательское соглашение</Link>
+                        <Link href="/privacy" className="hover:text-primary transition-colors">
+                            {lang === "ru" ? "Согласие на обработку данных" : "Data Processing Agreement"}
+                        </Link>
+                        <Link href="/terms" className="hover:text-primary transition-colors">
+                            {lang === "ru" ? "Пользовательское соглашение" : "Terms of Service"}
+                        </Link>
                     </div>
                 </div>
             </div>

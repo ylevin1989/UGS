@@ -37,19 +37,21 @@ const IconMap: any = {
 };
 
 export default async function HomePage() {
-  const content = await getContent();
+  const result = await getContent();
 
-  if (!content) return null;
+  if (!result) return null;
+  const { data: content, lang } = result;
+  const sections = content.sections;
 
   return (
     <>
-      <Header phone={content.site.phone} />
+      <Header phone={content.site.phone} currentLang={lang} />
       <main>
         <HeroSection content={content} />
 
         <div className="relative -mt-16 mb-24 z-40">
           <MarqueeTicker
-            items={["UGC Ads", "TikTok Strategy", "Viral Content", "Creative Strategy", "SaaS Reviews", "Growth Hacking"]}
+            items={lang === "ru" ? ["UGC Реклама", "Стратегия TikTok", "Виральный контент", "Креатив", "SaaS Обзоры", "Growth Hacking"] : ["UGC Ads", "TikTok Strategy", "Viral Content", "Creative Strategy", "SaaS Reviews", "Growth Hacking"]}
             speed={30}
           />
         </div>
@@ -59,16 +61,17 @@ export default async function HomePage() {
           <div className="container relative z-10">
             <div className="text-center max-w-4xl mx-auto mb-16 space-y-4">
               <ClientMotionWrapper
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                 tag="span"
                 className="text-primary font-black uppercase tracking-[0.3em] text-[10px]"
               >
-                The Problem
+                {sections.problem.tag}
               </ClientMotionWrapper>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase">
-                Why classic ads <br />
-                <span className="text-destructive tracking-tighter italic">don't work</span> anymore.
+                {sections.problem.title} <br />
+                <span className="text-destructive tracking-tighter italic">{sections.problem.titleItalic}</span>.
               </h2>
             </div>
 
@@ -77,24 +80,24 @@ export default async function HomePage() {
                 <div className="w-16 h-16 rounded-2xl bg-destructive/10 flex items-center justify-center text-destructive group-hover:scale-110 transition-transform">
                   <Zap size={32} />
                 </div>
-                <h3 className="text-3xl font-black uppercase tracking-tighter">Низкий TRUST-барьер</h3>
+                <h3 className="text-3xl font-black uppercase tracking-tighter">{sections.problem.card1.title}</h3>
                 <p className="text-muted-foreground text-lg leading-relaxed">
-                  Пользователи научились игнорировать классическую рекламу. Вашему бренду нужен <span className="text-white font-bold">голос реальных людей</span>, а не голос диктора.
+                  {sections.problem.card1.desc}
                 </p>
               </Card>
               <Card className="p-10 glass rounded-[3rem] space-y-6 hover:border-primary/30 transition-all group">
                 <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
                   <Eye size={32} />
                 </div>
-                <h3 className="text-3xl font-black uppercase tracking-tighter">Баннерная слепота</h3>
+                <h3 className="text-3xl font-black uppercase tracking-tighter">{sections.problem.card2.title}</h3>
                 <p className="text-muted-foreground text-lg leading-relaxed">
-                  CTR нативной рекламы (UGC) в <span className="text-primary font-black">4 раза выше</span>, чем у классических креативов. Люди смотрят то, что им интересно.
+                  {sections.problem.card2.desc}
                 </p>
               </Card>
             </div>
 
-            <div className="bg-primary/5 border border-primary/10 rounded-[3rem] p-6 md:p-10 text-center max-w-5xl mx-auto">
-              <h3 className="text-2xl md:text-3xl font-black mb-6 uppercase tracking-tight">Наше решение</h3>
+            <div className="bg-primary/5 border border-primary/10 rounded-[3rem] p-8 md:p-12 text-center w-full">
+              <h3 className="text-2xl md:text-3xl font-black mb-6 uppercase tracking-tight">{sections.problem.solution}</h3>
               <p className="text-lg md:text-xl leading-relaxed text-foreground/80 italic">
                 {content.site.description}
               </p>
@@ -116,11 +119,11 @@ export default async function HomePage() {
                 tag="span"
                 className="text-primary font-black uppercase tracking-[0.3em] text-xs"
               >
-                Execution
+                {sections.execution.tag}
               </ClientMotionWrapper>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase leading-[0.85]">
-                From Brief to <br />
-                <span className="text-primary italic">Viral Sales</span>
+                {sections.execution.title} <br />
+                <span className="text-primary italic">{sections.execution.titleItalic}</span>
               </h2>
             </div>
 
@@ -128,13 +131,13 @@ export default async function HomePage() {
               {(content.process || PROCESS_STEPS).map((step: any, idx: number) => (
                 <ClientMotionWrapper
                   key={idx}
-                  initial={{ opacity: 0, scale: 0.95, y: 30 }}
+                  initial={{ opacity: 0, scale: 0.98, y: 20 }}
                   whileInView={{ opacity: 1, scale: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{
-                    duration: 0.8,
-                    delay: idx * 0.15,
-                    ease: [0.22, 1, 0.36, 1]
+                    duration: 1.2,
+                    delay: idx * 0.1,
+                    ease: [0.16, 1, 0.3, 1]
                   }}
                   className="relative group p-8 glass rounded-[2.5rem] hover:border-primary/30 transition-all duration-500 flex flex-col h-auto min-h-[320px] lg:min-h-[350px]"
                 >
@@ -167,16 +170,17 @@ export default async function HomePage() {
           <div className="container">
             <div className="text-center max-w-4xl mx-auto mb-16 space-y-4">
               <ClientMotionWrapper
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                 tag="span"
                 className="text-primary font-black uppercase tracking-[0.3em] text-[10px]"
               >
-                Our Arsenal
+                {sections.arsenal.tag}
               </ClientMotionWrapper>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase leading-[0.85]">
-                Formats that <br />
-                <span className="text-primary italic">Dominate</span> feeds.
+                {sections.arsenal.title} <br />
+                <span className="text-primary italic">{sections.arsenal.titleItalic}</span>.
               </h2>
             </div>
 
@@ -186,9 +190,10 @@ export default async function HomePage() {
                 return (
                   <ClientMotionWrapper
                     key={idx}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.2, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
                     className="group relative h-[300px] md:h-[350px] glass rounded-[2.5rem] md:rounded-[3rem] overflow-hidden hover:border-primary/30 transition-all duration-500 shadow-2xl"
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-50" />
@@ -233,49 +238,27 @@ export default async function HomePage() {
               <div className="space-y-10">
                 <div className="space-y-4">
                   <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.9]">
-                    Зачем вам <br /><span className="text-primary italic">это нужно?</span>
+                    {sections.value.title} <br /><span className="text-primary italic">{sections.value.titleItalic}</span>
                   </h2>
                   <p className="text-zinc-400 text-lg">
-                    Мы не просто делаем «красиво». Мы решаем конкретные боли бизнеса в 2024 году.
+                    {sections.value.subtitle}
                   </p>
                 </div>
 
                 <div className="space-y-8">
-                  <div className="flex gap-6 group">
-                    <div className="mt-1 flex-shrink-0 w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-primary border border-white/10 group-hover:bg-primary group-hover:text-black transition-all">
-                      <CheckCircle2 size={24} />
+                  {sections.value.points.map((point: any, idx: number) => (
+                    <div key={idx} className="flex gap-6 group">
+                      <div className="mt-1 flex-shrink-0 w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-primary border border-white/10 group-hover:bg-primary group-hover:text-black transition-all">
+                        <CheckCircle2 size={24} />
+                      </div>
+                      <div>
+                        <h4 className="text-xl font-bold mb-2">{point.title}</h4>
+                        <p className="text-zinc-400 text-sm leading-relaxed">
+                          {point.desc}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="text-xl font-bold mb-2">Снижение CAC</h4>
-                      <p className="text-zinc-400 text-sm leading-relaxed">
-                        Органические охваты Reels и TikTok бесплатны. Это делает стоимость одного привлеченного клиента в 5-10 раз дешевле, чем классический таргет.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-6 group">
-                    <div className="mt-1 flex-shrink-0 w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-primary border border-white/10 group-hover:bg-primary group-hover:text-black transition-all">
-                      <CheckCircle2 size={24} />
-                    </div>
-                    <div>
-                      <h4 className="text-xl font-bold mb-2">Тотальное доверие</h4>
-                      <p className="text-zinc-400 text-sm leading-relaxed">
-                        UGC-контент воспринимается как совет друга, а не реклама. Конверсия в покупку с таких видео в среднем выше на 35-50%.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-6 group">
-                    <div className="mt-1 flex-shrink-0 w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-primary border border-white/10 group-hover:bg-primary group-hover:text-black transition-all">
-                      <CheckCircle2 size={24} />
-                    </div>
-                    <div>
-                      <h4 className="text-xl font-bold mb-2">Вечный актив</h4>
-                      <p className="text-zinc-400 text-sm leading-relaxed">
-                        Вы получаете полные права на контент. Используйте его в рекламе, на сайте, в карточках Wildberries, Ozon или Amazon без ограничений.
-                      </p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -284,19 +267,19 @@ export default async function HomePage() {
 
         <div className="py-12 overflow-hidden">
           <MarqueeTicker
-            items={["Scalable ROI", "Global Reach", "High Conversion", "Authentic Vibes", "Performance Driven"]}
+            items={lang === "ru" ? ["Масштабируемый ROI", "Глобальный охват", "Высокая конверсия", "Живой вайб", "Результат"] : ["Scalable ROI", "Global Reach", "High Conversion", "Authentic Vibes", "Performance Driven"]}
             direction="right"
             speed={40}
           />
         </div>
 
-        <CTASection />
+        <CTASection lang={lang} />
 
         {/* FAQ Section */}
         <section className="py-12 bg-card/20">
           <div className="container max-w-4xl">
             <h2 className="text-4xl font-black tracking-tighter mb-10 uppercase text-center">
-              Частые вопросы
+              {sections.faq}
             </h2>
             <Accordion type="single" collapsible className="space-y-4">
               {(content.faq?.clients || CLIENT_FAQ).map((item: any, idx: number) => (
@@ -313,7 +296,7 @@ export default async function HomePage() {
           </div>
         </section>
       </main>
-      <Footer />
+      <Footer lang={lang} />
     </>
   );
 }

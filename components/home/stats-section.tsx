@@ -21,10 +21,14 @@ export function StatsSection({ content }: { content: any }) {
             <div className="container">
                 <div className="text-center mb-16 space-y-4">
                     <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase italic">
-                        Real-time <span className="text-primary">Performance</span>
+                        {content.lang === "ru" ? (
+                            <>Наши <span className="text-primary">Результаты</span></>
+                        ) : (
+                            <>Real-time <span className="text-primary">Performance</span></>
+                        )}
                     </h2>
                     <p className="text-muted-foreground text-sm uppercase tracking-[0.3em] font-bold">
-                        Data-driven results from our ecosystem
+                        {content.lang === "ru" ? "Данные на основе нашей экосистемы" : "Data-driven results from our ecosystem"}
                     </p>
                 </div>
 
@@ -37,7 +41,7 @@ export function StatsSection({ content }: { content: any }) {
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
+                                transition={{ delay: index * 0.1, duration: 1, ease: [0.16, 1, 0.3, 1] }}
                                 className="relative group p-5 md:p-8 rounded-3xl md:rounded-[2.5rem] glass hover:border-primary/20 hover:bg-white/[0.05] transition-all duration-500 shadow-2xl"
                             >
                                 <div className="flex justify-between items-start mb-4 md:mb-6">

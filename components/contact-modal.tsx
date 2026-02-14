@@ -15,9 +15,10 @@ import { useState } from "react";
 interface ContactModalProps {
     type: "client" | "creator";
     trigger?: React.ReactNode;
+    lang?: string;
 }
 
-export function ContactModal({ type, trigger }: ContactModalProps) {
+export function ContactModal({ type, trigger, lang = "ru" }: ContactModalProps) {
     const [open, setOpen] = useState(false);
 
     return (
@@ -25,7 +26,9 @@ export function ContactModal({ type, trigger }: ContactModalProps) {
             <DialogTrigger asChild>
                 {trigger || (
                     <Button size="lg" className="rounded-full px-8 h-12 font-bold shadow-xl">
-                        {type === "client" ? "Запустить рекламу" : "Стать креатором"}
+                        {type === "client"
+                            ? (lang === "ru" ? "Запустить рекламу" : "Start growth")
+                            : (lang === "ru" ? "Стать креатором" : "Become creator")}
                     </Button>
                 )}
             </DialogTrigger>
@@ -36,9 +39,17 @@ export function ContactModal({ type, trigger }: ContactModalProps) {
                     <DialogHeader className="mb-6 md:mb-8">
                         <DialogTitle className="text-3xl md:text-4xl font-black tracking-tighter uppercase text-center">
                             {type === "client" ? (
-                                <>Отправить <span className="text-primary italic">БРИФ</span></>
+                                lang === "ru" ? (
+                                    <>Оставить <span className="text-primary italic">ЗАЯВКУ</span></>
+                                ) : (
+                                    <>Leave a <span className="text-primary italic">REQUEST</span></>
+                                )
                             ) : (
-                                <>Стать <span className="text-primary italic">КРЕАТОРОМ</span></>
+                                lang === "ru" ? (
+                                    <>Стать <span className="text-primary italic">КРЕАТОРОМ</span></>
+                                ) : (
+                                    <>Become a <span className="text-primary italic">CREATOR</span></>
+                                )
                             )}
                         </DialogTitle>
                     </DialogHeader>

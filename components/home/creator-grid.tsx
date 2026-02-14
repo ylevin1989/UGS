@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const CREATORS = [
-    { id: 1, name: "Anna", img: "/creator_filming_phone_1770949347410.png", delay: 0 },
-    { id: 2, name: "Mark", img: "/case_study_viral_video_1770949503401.png", delay: 0.1 },
-    { id: 3, name: "Sarah", img: "/ugc_hero_dark_tech_1770949327468.png", delay: 0.2 },
-    { id: 4, name: "David", img: "/creator_filming_phone_1770949347410.png", delay: 0.3 },
-    { id: 5, name: "Elena", img: "/case_study_viral_video_1770949503401.png", delay: 0.4 },
-    { id: 6, name: "Boris", img: "/ugc_hero_dark_tech_1770949327468.png", delay: 0.5 },
+    { id: 1, name: "Alex", img: "/creator_new_portrait_1_1771031474451.png", delay: 0 },
+    { id: 2, name: "Maria", img: "/ugc_creator_girl_v2_1771029978654.png", delay: 0.1 },
+    { id: 3, name: "Chris", img: "/ugc_creator_boy_v2_1771029993194.png", delay: 0.2 },
+    { id: 4, name: "Julia", img: "/grid_maria_new_1771030524055.png", delay: 0.3 },
+    { id: 5, name: "Dmitry", img: "/creator_portrait_1_1771031547964.png", delay: 0.4 },
+    { id: 6, name: "Ksenia", img: "/grid_alex_new_1771030508020.png", delay: 0.5 },
 ];
 
 export function CreatorGrid({ content }: { content: any }) {
@@ -27,7 +27,7 @@ export function CreatorGrid({ content }: { content: any }) {
                             key={creator.id || i}
                             initial={{ opacity: 0, y: 40 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: (i * 0.1), duration: 1 }}
+                            transition={{ delay: (i * 0.1), duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                             className="relative aspect-[4/5] rounded-2xl md:rounded-[3rem] overflow-hidden border border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] bg-zinc-900"
                         >
                             <Image
@@ -53,7 +53,7 @@ export function CreatorGrid({ content }: { content: any }) {
                             key={creator.id || i + 3}
                             initial={{ opacity: 0, y: 40 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: (i * 0.1) + 0.3, duration: 1 }}
+                            transition={{ delay: (i * 0.1) + 0.3, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                             className="relative aspect-[4/5] rounded-2xl md:rounded-[3rem] overflow-hidden border border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] bg-zinc-900"
                         >
                             <Image

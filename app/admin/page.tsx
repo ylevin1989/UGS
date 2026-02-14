@@ -43,25 +43,32 @@ const SECTIONS = [
 ];
 
 export default function AdminPage() {
-    const [content, setContent] = useState<any>(null);
+    const [contentRu, setContentRu] = useState<any>(null);
+    const [contentEn, setContentEn] = useState<any>(null);
+    const [editLang, setEditLang] = useState<"ru" | "en">("ru");
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [activeSection, setActiveSection] = useState("general");
 
     useEffect(() => {
         async function load() {
-            const data = await getContent();
-            setContent(data);
+            const resRu = await getContent("ru");
+            const resEn = await getContent("en");
+            if (resRu) setContentRu(resRu.data);
+            if (resEn) setContentEn(resEn.data);
             setLoading(false);
         }
         load();
     }, []);
 
+    const content = editLang === "ru" ? contentRu : contentEn;
+    const setContent = editLang === "ru" ? setContentRu : setContentEn;
+
     const handleSave = async () => {
         setSaving(true);
-        const result = await updateContent(content);
+        const result = await updateContent(content, editLang);
         if (result.success) {
-            toast.success("Контент обновлен!");
+            toast.success(`Контент (${editLang.toUpperCase()}) обновлен!`);
         } else {
             toast.error("Ошибка при сохранении");
         }
@@ -93,7 +100,12 @@ export default function AdminPage() {
             case "general":
                 return (
                     <div className="space-y-6">
-                        <h2 className="text-2xl font-black uppercase tracking-tight text-white mb-8">Общие настройки</h2>
+                        <div className="flex items-center justify-between mb-8">
+                            <h2 className="text-2xl font-black uppercase tracking-tight text-white">Общие настройки</h2>
+                            <div className="bg-primary/20 text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border border-primary/20">
+                                {editLang.toUpperCase()}
+                            </div>
+                        </div>
                         <Card className="p-8 glass space-y-6 border-white/10">
                             <div className="space-y-4">
                                 <div className="space-y-2">
@@ -137,7 +149,12 @@ export default function AdminPage() {
             case "hero":
                 return (
                     <div className="space-y-6">
-                        <h2 className="text-2xl font-black uppercase tracking-tight text-white mb-8">Главный экран</h2>
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-2xl font-black uppercase tracking-tight text-white mb-8">Главный экран</h2>
+                            <div className="bg-primary/20 text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border border-primary/20">
+                                Editing: {editLang.toUpperCase()}
+                            </div>
+                        </div>
                         <Card className="p-8 glass space-y-6 border-white/10">
                             <div className="grid md:grid-cols-3 gap-4">
                                 {['title1', 'title2', 'title3'].map(t => (
@@ -175,6 +192,24 @@ export default function AdminPage() {
                                         onChange={(e) => updateNested('hero.ctaSecondary', e.target.value)}
                                         className="bg-zinc-900 border-white/10 rounded-xl h-12"
                                     />
+                                </div>
+                            </div>
+                            <div className="pt-8 border-t border-white/5 space-y-4">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Аватары доверия (Social Proof Avatars - 3 фото)</label>
+                                <div className="grid grid-cols-3 gap-6">
+                                    {[0, 1, 2].map((idx) => (
+                                        <div key={idx} className="space-y-2">
+                                            <label className="text-[8px] font-black uppercase tracking-widest text-zinc-600">Аватар {idx + 1}</label>
+                                            <ImageUpload
+                                                value={content.hero?.socialAvatars?.[idx] || ""}
+                                                onChange={(url) => {
+                                                    const newAvatars = [...(content.hero?.socialAvatars || ["", "", ""])];
+                                                    newAvatars[idx] = url;
+                                                    updateNested('hero.socialAvatars', newAvatars);
+                                                }}
+                                            />
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </Card>
@@ -229,10 +264,32 @@ export default function AdminPage() {
             case "process":
                 return (
                     <div className="space-y-6">
-                        <h2 className="text-2xl font-black uppercase tracking-tight text-white mb-8">Процесс (Шаги)</h2>
+                        <div className="flex justify-between items-center mb-8">
+                            <h2 className="text-2xl font-black uppercase tracking-tight text-white font-black italic text-primary">Процесс (Шаги)</h2>
+                            <Button
+                                onClick={() => {
+                                    const newProcess = [...(content.process || [])];
+                                    newProcess.push({ step: newProcess.length + 1, title: "Новый шаг", text: "Описание шага" });
+                                    setContent({ ...content, process: newProcess });
+                                }}
+                                className="bg-white/5 hover:bg-white/10 text-white rounded-xl border border-white/10"
+                            >
+                                <Plus size={18} className="mr-2" /> Добавить шаг
+                            </Button>
+                        </div>
                         <div className="space-y-6">
                             {(content.process || []).map((step: any, idx: number) => (
                                 <Card key={idx} className="p-8 glass border-white/10 flex gap-8 items-start relative group">
+                                    <button
+                                        onClick={() => {
+                                            const newProcess = [...content.process];
+                                            newProcess.splice(idx, 1);
+                                            setContent({ ...content, process: newProcess });
+                                        }}
+                                        className="absolute top-4 right-4 text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                                    >
+                                        <Trash2 size={18} />
+                                    </button>
                                     <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center text-black font-black text-2xl flex-shrink-0">
                                         {idx + 1}
                                     </div>
@@ -264,10 +321,32 @@ export default function AdminPage() {
             case "formats":
                 return (
                     <div className="space-y-6">
-                        <h2 className="text-2xl font-black uppercase tracking-tight text-white mb-8">Форматы контента</h2>
+                        <div className="flex justify-between items-center mb-8">
+                            <h2 className="text-2xl font-black uppercase tracking-tight text-white font-black italic text-primary">Форматы контента</h2>
+                            <Button
+                                onClick={() => {
+                                    const newFormats = [...(content.formats || [])];
+                                    newFormats.push({ title: "Новый формат", desc: "Описание формата", icon: "Package" });
+                                    setContent({ ...content, formats: newFormats });
+                                }}
+                                className="bg-white/5 hover:bg-white/10 text-white rounded-xl border border-white/10"
+                            >
+                                <Plus size={18} className="mr-2" /> Добавить формат
+                            </Button>
+                        </div>
                         <div className="grid md:grid-cols-2 gap-6">
                             {(content.formats || []).map((format: any, idx: number) => (
-                                <Card key={idx} className="p-6 glass border-white/10 space-y-4">
+                                <Card key={idx} className="p-6 glass border-white/10 space-y-4 relative group">
+                                    <button
+                                        onClick={() => {
+                                            const newFormats = [...content.formats];
+                                            newFormats.splice(idx, 1);
+                                            setContent({ ...content, formats: newFormats });
+                                        }}
+                                        className="absolute top-4 right-4 text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                                    >
+                                        <Trash2 size={18} />
+                                    </button>
                                     <Input
                                         value={format.title}
                                         onChange={(e) => {
@@ -307,7 +386,12 @@ export default function AdminPage() {
                 return (
                     <div className="space-y-6">
                         <div className="flex justify-between items-center mb-8">
-                            <h2 className="text-2xl font-black uppercase tracking-tight text-white">Кейсы</h2>
+                            <div className="flex items-center space-x-4">
+                                <h2 className="text-2xl font-black uppercase tracking-tight text-white">Кейсы</h2>
+                                <div className="bg-primary/20 text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border border-primary/20">
+                                    {editLang.toUpperCase()}
+                                </div>
+                            </div>
                             <Button
                                 onClick={() => {
                                     const newCases = [...(content.cases || [])];
@@ -733,7 +817,21 @@ export default function AdminPage() {
                     <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-black font-black">U</div>
                     <h1 className="text-xl font-black uppercase tracking-tighter">Admin Panel</h1>
                 </div>
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-6">
+                    <div className="flex bg-white/5 p-1 rounded-xl border border-white/10">
+                        <button
+                            onClick={() => setEditLang("ru")}
+                            className={`px-4 py-2 rounded-lg text-xs font-black transition-all ${editLang === "ru" ? "bg-primary text-black" : "text-zinc-500 hover:text-white"}`}
+                        >
+                            RU
+                        </button>
+                        <button
+                            onClick={() => setEditLang("en")}
+                            className={`px-4 py-2 rounded-lg text-xs font-black transition-all ${editLang === "en" ? "bg-primary text-black" : "text-zinc-500 hover:text-white"}`}
+                        >
+                            EN
+                        </button>
+                    </div>
                     <Link href="/" className="flex items-center text-sm font-bold opacity-50 hover:opacity-100 transition-opacity">
                         <ArrowLeft size={16} className="mr-2" /> Сайт
                     </Link>
@@ -743,7 +841,7 @@ export default function AdminPage() {
                         className="bg-primary hover:bg-primary/80 text-black font-black uppercase tracking-tight h-11 px-6 rounded-xl shadow-lg shadow-primary/20"
                     >
                         {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
-                        Сохранить
+                        Сохранить {editLang.toUpperCase()}
                     </Button>
                 </div>
             </div>
